@@ -29,7 +29,6 @@ public class OrderTicket : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        // When an order is taken, spawn the paper and auto-open the UI
         if (GameManager.Instance.hasActiveOrder && !paperMesh.enabled)
         {
             paperMesh.enabled = true;
@@ -38,10 +37,9 @@ public class OrderTicket : MonoBehaviour, IInteractable
             if (!isUIVisible)
             {
                 ToggleUI();
-                toggledThisFrame = true; // Prevents the interaction 'E' from closing it instantly
+                toggledThisFrame = true;
             }
         }
-        // When lapida is delivered, remove the paper
         else if (!GameManager.Instance.hasActiveOrder && paperMesh.enabled)
         {
             paperMesh.enabled = false;
@@ -55,7 +53,6 @@ public class OrderTicket : MonoBehaviour, IInteractable
             return;
         }
 
-        // Close UI if open
         if (isUIVisible && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)))
         {
             ToggleUI();
@@ -65,6 +62,11 @@ public class OrderTicket : MonoBehaviour, IInteractable
 
     public string GetPromptText()
     {
+        if (!GameManager.Instance.hasActiveOrder)
+        {
+            return string.Empty;
+        }
+
         if (isUIVisible)
         {
             return "[E] Put Down Ticket";
@@ -74,6 +76,8 @@ public class OrderTicket : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (!GameManager.Instance.hasActiveOrder) return;
+
         if (!isUIVisible)
         {
             ToggleUI();
