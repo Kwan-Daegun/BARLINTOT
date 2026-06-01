@@ -7,6 +7,7 @@ public class ShutterButton : MonoBehaviour, IInteractable
     public float openYScale = 0.05f;
     public float closedYScale = 1.0f;
     public float squishSpeed = 7f;
+    public AudioClip shutterSound;
 
     private bool isOpen = true;
     private bool isMoving = false;
@@ -28,6 +29,7 @@ public class ShutterButton : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (isMoving) return;
+        AudioSource.PlayClipAtPoint(shutterSound, transform.position);
         StartCoroutine(SquishShutter());
     }
 

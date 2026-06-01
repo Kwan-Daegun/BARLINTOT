@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 4f;
     public float gravity = -9.81f;
-
+    private bool isSprinting = false;
     private CharacterController controller;
     private Vector3 velocity;
 
@@ -19,6 +19,15 @@ public class PlayerMovement : MonoBehaviour
         if (controller.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+        }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isSprinting = true;
+            speed = 10f;
+        }
+        else{
+            isSprinting = false;
+            speed = 4f;
         }
 
         float x = Input.GetAxis("Horizontal");
