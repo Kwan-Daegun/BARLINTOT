@@ -20,6 +20,6 @@ MonoBehaviour:
     birthDate: June 12, 1961
     deathDate: TOMORROW
     message: I can see you through the stone, Jun. Put down the chisel
-  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
+  normalModelPrefab: {fileID: 2769933560368169090, guid: 0e2d9cbe355133745a05aeb098c90056, type: 3}
   physicalMorphPrefab: {fileID: 0}
   logicErrorDescription: Same date

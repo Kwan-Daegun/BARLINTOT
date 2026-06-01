@@ -20,6 +20,6 @@ MonoBehaviour:
     birthDate: February 14, 1950
     deathDate: March 19, 2015
     message: Fair winds and following seas, dear brother. Rest easy
-  normalModelPrefab: {fileID: 919132149155446097, guid: a5ebcdcb9c4b2ed46bbb677dd70fcfde, type: 3}
+  normalModelPrefab: {fileID: 1010066466317146031, guid: c94de39df681a2546bd75303a4db3dc7, type: 3}
   physicalMorphPrefab: {fileID: 0}
   logicErrorDescription: 

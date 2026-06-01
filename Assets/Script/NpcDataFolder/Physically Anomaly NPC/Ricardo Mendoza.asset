@@ -20,6 +20,6 @@ MonoBehaviour:
     birthDate: September 22, 1931
     deathDate: August 30, 2020
     message: A century of wisdom, a legacy that will last forever
-  normalModelPrefab: {fileID: 919132149155446097, guid: a5ebcdcb9c4b2ed46bbb677dd70fcfde, type: 3}
+  normalModelPrefab: {fileID: 1010066466317146031, guid: c94de39df681a2546bd75303a4db3dc7, type: 3}
   physicalMorphPrefab: {fileID: 0}
   logicErrorDescription: 

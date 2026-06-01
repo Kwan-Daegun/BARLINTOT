@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5611515812978928456}
   - component: {fileID: 4882120761636924812}
   m_Layer: 3
-  m_Name: Ghost
+  m_Name: Non-Physical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

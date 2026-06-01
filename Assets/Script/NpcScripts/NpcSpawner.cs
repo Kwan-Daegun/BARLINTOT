@@ -17,6 +17,8 @@ public class NPCSpawner : MonoBehaviour
 
     public void SpawnRandomNPC()
     {
+        if (DayNightManager.Instance != null && DayNightManager.Instance.isNightTime) return;
+
         if (allPossibleNPCs.Count == 0) return;
 
         int randomIndex = Random.Range(0, allPossibleNPCs.Count);
@@ -34,5 +36,13 @@ public class NPCSpawner : MonoBehaviour
     private void HandleNPCExited()
     {
         Invoke(nameof(SpawnRandomNPC), spawnDelay);
+    }
+
+    public void ResumeSpawning()
+    {
+        if (!IsInvoking(nameof(SpawnRandomNPC)))
+        {
+            SpawnRandomNPC();
+        }
     }
 }

@@ -20,6 +20,6 @@ MonoBehaviour:
     birthDate: August 21, 1933
     deathDate: December 25, 2021
     message: Ang iyong alaala ay mananatiling buhay at ginto sa aming puso
-  normalModelPrefab: {fileID: 919132149155446097, guid: 02b0c23cef9ee1748b2286d6c40109d1, type: 3}
+  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
   physicalMorphPrefab: {fileID: 0}
   logicErrorDescription: 
