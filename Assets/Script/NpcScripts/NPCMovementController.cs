@@ -15,13 +15,13 @@ public class NPCMovementController : MonoBehaviour
     private bool isWaitingAtCounter;
     private bool hasBeenServed;
 
-    private Animator npcAnimator;
+    private Animator childAnimator;
 
     private void Awake()
     {
         /*agent = GetComponent<NavMeshAgent>();*/
 
-        npcAnimator = GetComponent<Animator>();
+        childAnimator = GetComponent<Animator>();
         // Grab the NavMeshAgent from the parent
         agent = GetComponentInParent<NavMeshAgent>();
 
@@ -37,32 +37,56 @@ public class NPCMovementController : MonoBehaviour
         WalkToCounter();
     }
 
+    /* private void ApplyVisuals()
+     {
+         if (npcData.normalModelPrefab != null)
+         {
+             GameObject model = Instantiate(npcData.normalModelPrefab, transform.position, transform.rotation, transform);
+
+             animator = model.GetComponent<Animator>();
+             if (animator == null)
+             {
+                 animator = model.GetComponentInChildren<Animator>();
+             }
+         }
+
+         if (npcData.type == NPCType.Anomaly && npcData.anomalyType == AnomalyType.Physical)
+         {
+             if (npcData.physicalMorphPrefab != null)
+             {
+                 Instantiate(npcData.physicalMorphPrefab, transform.position, transform.rotation, transform);
+             }
+         }
+     }*/
+
     private void ApplyVisuals()
     {
         if (npcData.normalModelPrefab != null)
         {
             GameObject model = Instantiate(npcData.normalModelPrefab, transform.position, transform.rotation, transform);
 
-            npcAnimator = model.GetComponent<Animator>();
-            if (npcAnimator == null)
-            {
-                npcAnimator = model.GetComponentInChildren<Animator>();
-            }
-        }
+            childAnimator = model.GetComponent<Animator>();
+            if (childAnimator == null)
+                childAnimator = model.GetComponentInChildren<Animator>();
 
-        if (npcData.type == NPCType.Anomaly && npcData.anomalyType == AnomalyType.Physical)
-        {
-            if (npcData.physicalMorphPrefab != null)
-            {
-                Instantiate(npcData.physicalMorphPrefab, transform.position, transform.rotation, transform);
-            }
+            if (childAnimator != null && npcData.animatorController != null)
+                childAnimator.runtimeAnimatorController = npcData.animatorController;
         }
     }
+
+
+
+    /*public void WalkToCounter()
+    {
+        isWaitingAtCounter = false;
+        agent.SetDestination(counterPosition.position);
+    }*/
 
     public void WalkToCounter()
     {
         isWaitingAtCounter = false;
         agent.SetDestination(counterPosition.position);
+        childAnimator?.Play("Walking"); // trigger here directly
     }
 
     public void ServeOrReject()
@@ -72,14 +96,20 @@ public class NPCMovementController : MonoBehaviour
         WalkToExit();
     }
 
+    /*private void WalkToExit()
+    {
+        agent.SetDestination(exitPosition.position);
+    }*/
+
     private void WalkToExit()
     {
         agent.SetDestination(exitPosition.position);
+        childAnimator?.Play("Walking"); // trigger here directly
     }
 
-    private void Update()
+    /*private void Update()
     {
-        /*if (npcAnimator != null)
+        *//*if (npcAnimator != null)
         {
             float speed = agent.velocity.magnitude;
             npcAnimator.SetFloat("Speed", speed);
@@ -92,19 +122,19 @@ public class NPCMovementController : MonoBehaviour
             {
                 npcAnimator.Play("Idle");
             }*//*
-        }*/
+        }*//*
 
-        if (npcAnimator == null || agent == null) return;
+        if (animator == null || agent == null) return;
 
         float speed = agent.velocity.magnitude;
 
         if (speed > 0.1f)
         {
-            npcAnimator.Play("Walking");
+            animator.Play("Walking");
         }
         else
         {
-            npcAnimator.Play("Idle");
+            animator.Play("Idle");
         }
 
 
@@ -119,6 +149,32 @@ public class NPCMovementController : MonoBehaviour
                 }
                 else if (hasBeenServed)
                 {
+                    TriggerDoorClose();
+                    onExited?.Invoke();
+                    Destroy(gameObject);
+                }
+            }
+        }
+    }*/
+
+
+    private void Update()
+    {
+        // remove all animation logic from here, no more speed check
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+            {
+                if (!isWaitingAtCounter && !hasBeenServed)
+                {
+                    isWaitingAtCounter = true;
+                    childAnimator?.Play("Idle"); // arrived at counter
+                    onReachedCounter?.Invoke();
+                }
+                else if (hasBeenServed)
+                {
+                    childAnimator?.Play("Idle");
                     TriggerDoorClose();
                     onExited?.Invoke();
                     Destroy(gameObject);

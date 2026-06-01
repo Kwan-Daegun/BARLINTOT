@@ -20,6 +20,7 @@ MonoBehaviour:
     birthDate: July 19, 1964
     deathDate: June 05, 2017
     message: May perpetual light shine upon your soul for all eternity
-  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
+  normalModelPrefab: {fileID: 186757882122740016, guid: bcc8732b8b44622449c23934f89e68c0, type: 3}
   physicalMorphPrefab: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: eab61cdf0842b6d4a860a15dc2ee7bc4, type: 2}
   logicErrorDescription: 

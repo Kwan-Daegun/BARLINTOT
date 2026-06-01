@@ -20,6 +20,7 @@ MonoBehaviour:
     birthDate: September 08, 1975
     deathDate: June 12, 1961
     message: Salamat sa walang sawang pagmamahal, pag-gabay, at sakripisyo
-  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
+  normalModelPrefab: {fileID: 186757882122740016, guid: bcc8732b8b44622449c23934f89e68c0, type: 3}
   physicalMorphPrefab: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: 1b73a17fe8cacfd42abb33d2c4b04f3e, type: 2}
   logicErrorDescription: Same date

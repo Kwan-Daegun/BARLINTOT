@@ -20,6 +20,7 @@ MonoBehaviour:
     birthDate: 'May 04, 1968 '
     deathDate: July 07, 2019
     message: He lived a life full of honor, strength, and unwavering kindness
-  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
+  normalModelPrefab: {fileID: 6993270559495516286, guid: 314b13a2c4f89c74299eabc2a4c725c7, type: 3}
   physicalMorphPrefab: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: eab61cdf0842b6d4a860a15dc2ee7bc4, type: 2}
   logicErrorDescription: 

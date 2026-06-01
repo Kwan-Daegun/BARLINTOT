@@ -20,6 +20,7 @@ MonoBehaviour:
     birthDate: -- / -- / ----
     deathDate: -- / -- / ----
     message: uoy llik lliw I dnA
-  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
+  normalModelPrefab: {fileID: 7501788059647666026, guid: bcc8c8f342f71a7439ac0579aa86f030, type: 3}
   physicalMorphPrefab: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: 1b73a17fe8cacfd42abb33d2c4b04f3e, type: 2}
   logicErrorDescription: Same date

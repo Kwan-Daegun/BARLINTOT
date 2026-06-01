@@ -24,5 +24,8 @@ public class NPCData : ScriptableObject
     public GameObject normalModelPrefab;
 
     public GameObject physicalMorphPrefab;
+
+    public RuntimeAnimatorController animatorController;
+
     public string logicErrorDescription;
 }

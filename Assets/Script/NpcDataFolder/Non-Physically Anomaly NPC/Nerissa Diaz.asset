@@ -20,6 +20,7 @@ MonoBehaviour:
     birthDate: November 18, 1955
     deathDate: January 01, 1920
     message: Make the marble thick enough so it cannot claw its way back out
-  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
+  normalModelPrefab: {fileID: 6584613354768528393, guid: bae26acf817c6dc4e82f95d9ef4ab46a, type: 3}
   physicalMorphPrefab: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: 1b73a17fe8cacfd42abb33d2c4b04f3e, type: 2}
   logicErrorDescription: Same date

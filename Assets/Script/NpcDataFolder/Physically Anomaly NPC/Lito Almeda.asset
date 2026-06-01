@@ -22,4 +22,5 @@ MonoBehaviour:
     message: Mamamatay ang mga bulaklak ngunit ang pag-ibig mo ay walang maliw
   normalModelPrefab: {fileID: 919132149155446097, guid: a5ebcdcb9c4b2ed46bbb677dd70fcfde, type: 3}
   physicalMorphPrefab: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: 37815545b7ae39046ab0b76bd174e08a, type: 2}
   logicErrorDescription: 
