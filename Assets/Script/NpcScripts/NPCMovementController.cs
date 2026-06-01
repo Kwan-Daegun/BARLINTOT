@@ -19,7 +19,12 @@ public class NPCMovementController : MonoBehaviour
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
+        /*agent = GetComponent<NavMeshAgent>();*/
+
+        npcAnimator = GetComponent<Animator>();
+        // Grab the NavMeshAgent from the parent
+        agent = GetComponentInParent<NavMeshAgent>();
+
     }
 
     public void Initialize(NPCData data, Transform counter, Transform exit)
@@ -74,11 +79,34 @@ public class NPCMovementController : MonoBehaviour
 
     private void Update()
     {
-        if (npcAnimator != null)
+        /*if (npcAnimator != null)
         {
             float speed = agent.velocity.magnitude;
             npcAnimator.SetFloat("Speed", speed);
+*//*
+            if (speed > 0.1f)
+            {
+                npcAnimator.Play("Walking");
+            }
+            else
+            {
+                npcAnimator.Play("Idle");
+            }*//*
+        }*/
+
+        if (npcAnimator == null || agent == null) return;
+
+        float speed = agent.velocity.magnitude;
+
+        if (speed > 0.1f)
+        {
+            npcAnimator.Play("Walking");
         }
+        else
+        {
+            npcAnimator.Play("Idle");
+        }
+
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
