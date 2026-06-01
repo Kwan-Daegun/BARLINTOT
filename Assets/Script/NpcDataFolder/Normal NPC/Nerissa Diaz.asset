@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f67d7d4d32d301a4fbaefa9561847c42, type: 3}
-  m_Name: Geo Logi
+  m_Name: Nerissa Diaz
   m_EditorClassIdentifier: 
-  npcName: Geo Logi
-  type: 1
-  anomalyType: 1
+  npcName: Nerissa Diaz
+  type: 0
+  anomalyType: 0
   orderDetails:
-    deceasedName: Maria Clarity
-    birthDate: 05/10/1899
-    deathDate: 03/05/2005
-    message: 
-  normalModelPrefab: {fileID: 919132149155446097, guid: a5ebcdcb9c4b2ed46bbb677dd70fcfde, type: 3}
+    deceasedName: Antonio S. Diaz
+    birthDate: November 18, 1955
+    deathDate: October 31, 2024
+    message: To live in the hearts of those we leave behind is not to die
+  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
   physicalMorphPrefab: {fileID: 0}
   logicErrorDescription: 

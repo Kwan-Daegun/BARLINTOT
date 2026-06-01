@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f67d7d4d32d301a4fbaefa9561847c42, type: 3}
-  m_Name: Barney Lee
+  m_Name: Reversed Woman
   m_EditorClassIdentifier: 
-  npcName: Barney Lee
-  type: 0
-  anomalyType: 0
+  npcName: Reversed Woman
+  type: 1
+  anomalyType: 2
   orderDetails:
-    deceasedName: John Rock
-    birthDate: 06/23/1999
-    deathDate: 06/23/2026
-    message: Loving Heart
+    deceasedName: namow desraver a ma I
+    birthDate: -- / -- / ----
+    deathDate: -- / -- / ----
+    message: uoy llik lliw I dnA
   normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
   physicalMorphPrefab: {fileID: 0}
-  logicErrorDescription: 
+  logicErrorDescription: Same date

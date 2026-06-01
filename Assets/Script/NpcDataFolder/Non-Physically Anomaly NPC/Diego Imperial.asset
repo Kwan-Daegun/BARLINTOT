@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f67d7d4d32d301a4fbaefa9561847c42, type: 3}
-  m_Name: Harbi Dee
+  m_Name: Diego Imperial
   m_EditorClassIdentifier: 
-  npcName: Harbi Dee
+  npcName: Diego Imperial
   type: 1
   anomalyType: 2
   orderDetails:
-    deceasedName: Lee Roy
-    birthDate: 05/10/1899
-    deathDate: 05/10/1899
-    message: No Time To Live
+    deceasedName: You
+    birthDate: October 24, 2099
+    deathDate: March 19, 2015
+    message: Gone from our sight, but never from our memories. Until we meet again
   normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
   physicalMorphPrefab: {fileID: 0}
   logicErrorDescription: Same date
