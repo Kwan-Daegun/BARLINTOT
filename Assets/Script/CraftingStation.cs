@@ -8,6 +8,7 @@ public class CraftingStation : MonoBehaviour, IInteractable
     public float craftingDuration = 3f;
     public ParticleSystem craftingVFX;
     public MonoBehaviour playerMovementScript;
+    public AudioClip[] craftingSounds;
 
     [Header("Horror Settings")]
     [Range(0f, 100f)]
@@ -15,25 +16,23 @@ public class CraftingStation : MonoBehaviour, IInteractable
 
     private bool isCompleted = false;
     private bool isCrafting = false;
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public string GetPromptText()
     {
         if (!GameManager.Instance.hasActiveOrder)
-        {
             return "Need an order first";
-        }
         if (isCompleted)
-        {
             return stationName + " (Done)";
-        }
         if (isCrafting)
-        {
             return "Crafting...";
-        }
         if (GameManager.Instance.currentCraftingStep != stationStepNumber - 1)
-        {
             return "Finish previous step first";
-        }
 
         return "[E] Use " + stationName;
     }
@@ -55,9 +54,7 @@ public class CraftingStation : MonoBehaviour, IInteractable
         }
 
         if (GameManager.Instance.TryStartCraftingStep(stationStepNumber))
-        {
             StartCoroutine(CraftRoutine());
-        }
     }
 
     private IEnumerator AnomalyInterruptRoutine()
@@ -66,13 +63,9 @@ public class CraftingStation : MonoBehaviour, IInteractable
         if (playerMovementScript != null) playerMovementScript.enabled = false;
 
         if (stationStepNumber == 1)
-        {
             JumpscareManager.Instance.TriggerComputerScare();
-        }
         else
-        {
             JumpscareManager.Instance.TriggerPaintTableScare();
-        }
 
         yield return null;
     }
@@ -81,11 +74,23 @@ public class CraftingStation : MonoBehaviour, IInteractable
     {
         isCrafting = true;
 
-        if (playerMovementScript != null) playerMovementScript.enabled = false;
+        if (playerMovementScript != null)
+        {
+            playerMovementScript.enabled = false;
+            playerMovementScript.GetComponent<AudioSource>().Stop();
+        }
         if (craftingVFX != null) craftingVFX.Play();
+
+        if (audioSource != null && craftingSounds.Length > 0)
+        {
+            audioSource.clip = craftingSounds[Random.Range(0, craftingSounds.Length)];
+            audioSource.loop = true;
+            audioSource.Play();
+        }
 
         yield return new WaitForSeconds(craftingDuration);
 
+        if (audioSource != null) audioSource.Stop();
         if (craftingVFX != null) craftingVFX.Stop();
         if (playerMovementScript != null) playerMovementScript.enabled = true;
 

@@ -8,6 +8,7 @@ public class ShutterButton : MonoBehaviour, IInteractable
     public float closedYScale = 1.0f;
     public float squishSpeed = 7f;
     public AudioClip shutterSound;
+    public AudioSource shutterAudioSource;
 
     private bool isOpen = true;
     private bool isMoving = false;
@@ -38,10 +39,11 @@ public class ShutterButton : MonoBehaviour, IInteractable
         isMoving = true;
         isOpen = !isOpen;
 
+        if (shutterAudioSource != null)
+            shutterAudioSource.Play();
+
         if (!isOpen)
-        {
             GameManager.Instance.RejectCustomer();
-        }
 
         float targetY = isOpen ? openYScale : closedYScale;
         Vector3 targetScale = new Vector3(shutterPivot.localScale.x, targetY, shutterPivot.localScale.z);
@@ -53,6 +55,10 @@ public class ShutterButton : MonoBehaviour, IInteractable
         }
 
         shutterPivot.localScale = targetScale;
+
+        if (shutterAudioSource != null)
+            shutterAudioSource.Stop();
+
         isMoving = false;
     }
 }

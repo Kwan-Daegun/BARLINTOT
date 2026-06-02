@@ -17,9 +17,14 @@ public class NPCMovementController : MonoBehaviour
 
     private Animator npcAnimator;
 
+    [Header("Audio")]
+    public AudioClip walkingSound;
+    private AudioSource audioSource;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Initialize(NPCData data, Transform counter, Transform exit)
@@ -40,17 +45,13 @@ public class NPCMovementController : MonoBehaviour
 
             npcAnimator = model.GetComponent<Animator>();
             if (npcAnimator == null)
-            {
                 npcAnimator = model.GetComponentInChildren<Animator>();
-            }
         }
 
         if (npcData.type == NPCType.Anomaly && npcData.anomalyType == AnomalyType.Physical)
         {
             if (npcData.physicalMorphPrefab != null)
-            {
                 Instantiate(npcData.physicalMorphPrefab, transform.position, transform.rotation, transform);
-            }
         }
     }
 
@@ -80,6 +81,8 @@ public class NPCMovementController : MonoBehaviour
             npcAnimator.SetFloat("Speed", speed);
         }
 
+        HandleFootstepSound();
+
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
@@ -98,6 +101,25 @@ public class NPCMovementController : MonoBehaviour
             }
         }
     }
+
+   private void HandleFootstepSound()
+{
+    if (audioSource == null || walkingSound == null) return;
+    if (npcData.type == NPCType.Anomaly && npcData.anomalyType != AnomalyType.Physical) return; // <- added
+
+    bool isMoving = agent.velocity.magnitude > 0.1f;
+
+    if (isMoving && !audioSource.isPlaying)
+    {
+        audioSource.clip = walkingSound;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+    else if (!isMoving && audioSource.isPlaying)
+    {
+        audioSource.Stop();
+    }
+}
 
     private void TriggerDoorClose()
     {

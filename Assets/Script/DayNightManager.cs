@@ -25,6 +25,12 @@ public class DayNightManager : MonoBehaviour
     public float nightShiftDuration = 60f;
     public float transitionDuration = 5f;
 
+    [Header("Audio")]
+    public AudioSource ambientAudioSource;
+    public AudioClip dayAmbientSound;
+    public AudioClip[] nightAmbientSounds;
+    public float ambientDelay = 3f;
+
     private float currentShiftTimer;
     public bool isNightTime = false;
     private Coroutine transitionRoutine;
@@ -44,10 +50,10 @@ public class DayNightManager : MonoBehaviour
         RenderSettings.reflectionIntensity = dayReflectionIntensity;
 
         if (directionalLight != null)
-        {
             directionalLight.intensity = dayLightIntensity;
-        }
+
         DynamicGI.UpdateEnvironment();
+        StartCoroutine(PlayAmbientWithDelay(dayAmbientSound));
     }
 
     private void Update()
@@ -57,13 +63,9 @@ public class DayNightManager : MonoBehaviour
         if (currentShiftTimer <= 0)
         {
             if (!isNightTime)
-            {
                 StartNightShift();
-            }
             else
-            {
                 StartDayShift();
-            }
         }
     }
 
@@ -74,12 +76,11 @@ public class DayNightManager : MonoBehaviour
         currentShiftTimer = nightShiftDuration;
 
         if (GameManager.Instance != null && GameManager.Instance.hasActiveOrder)
-        {
             GameManager.Instance.RejectCustomer();
-        }
 
         if (transitionRoutine != null) StopCoroutine(transitionRoutine);
         transitionRoutine = StartCoroutine(TransitionLighting(nightSkybox, nightLightIntensity, nightAmbientIntensity, nightReflectionIntensity));
+        StartCoroutine(PlayNightAmbientLoop());
     }
 
     public void StartDayShift()
@@ -89,12 +90,41 @@ public class DayNightManager : MonoBehaviour
         currentShiftTimer = dayShiftDuration;
 
         if (npcSpawner != null)
-        {
             npcSpawner.ResumeSpawning();
-        }
 
         if (transitionRoutine != null) StopCoroutine(transitionRoutine);
         transitionRoutine = StartCoroutine(TransitionLighting(daySkybox, dayLightIntensity, dayAmbientIntensity, dayReflectionIntensity));
+        StartCoroutine(PlayAmbientWithDelay(dayAmbientSound));
+    }
+
+    private IEnumerator PlayAmbientWithDelay(AudioClip clip)
+    {
+        if (ambientAudioSource == null || clip == null) yield break;
+
+        ambientAudioSource.Stop();
+        yield return new WaitForSeconds(ambientDelay);
+
+        ambientAudioSource.clip = clip;
+        ambientAudioSource.loop = true;
+        ambientAudioSource.Play();
+    }
+
+    private IEnumerator PlayNightAmbientLoop()
+    {
+        if (ambientAudioSource == null || nightAmbientSounds.Length == 0) yield break;
+
+        ambientAudioSource.Stop();
+        yield return new WaitForSeconds(ambientDelay);
+
+        while (isNightTime)
+        {
+            AudioClip randomNight = nightAmbientSounds[Random.Range(0, nightAmbientSounds.Length)];
+            ambientAudioSource.clip = randomNight;
+            ambientAudioSource.loop = false;
+            ambientAudioSource.Play();
+
+            yield return new WaitForSeconds(randomNight.length);
+        }
     }
 
     private IEnumerator TransitionLighting(Material targetSkybox, float targetLight, float targetAmbient, float targetReflection)
@@ -113,9 +143,8 @@ public class DayNightManager : MonoBehaviour
             float t = timeElapsed / transitionDuration;
 
             if (directionalLight != null)
-            {
                 directionalLight.intensity = Mathf.Lerp(startLight, targetLight, t);
-            }
+
             RenderSettings.ambientIntensity = Mathf.Lerp(startAmbient, targetAmbient, t);
             RenderSettings.reflectionIntensity = Mathf.Lerp(startReflection, targetReflection, t);
 
@@ -123,9 +152,8 @@ public class DayNightManager : MonoBehaviour
         }
 
         if (directionalLight != null)
-        {
             directionalLight.intensity = targetLight;
-        }
+
         RenderSettings.ambientIntensity = targetAmbient;
         RenderSettings.reflectionIntensity = targetReflection;
 
