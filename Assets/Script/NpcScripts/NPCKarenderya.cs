@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-public class NPCKarenderya : MonoBehaviour
+[RequireComponent(typeof(NavMeshAgent))]
+public class NPCKarenderya : MonoBehaviour, IInteractable
 {
     public enum AI_STATE
     {
@@ -10,9 +12,15 @@ public class NPCKarenderya : MonoBehaviour
     }
 
     public AI_STATE current_state = AI_STATE.IDLING;
-    public NPCMovementController movementController;
+    private NavMeshAgent agent;
+
     public Transform standLocation, cookingLocation;
-    public NPCData npcData;
+
+    private void Awake()
+    {
+        agent = gameObject.GetComponent<NavMeshAgent>();
+        if (agent == null) Debug.LogError($"{gameObject.name} does not have a NavMeshAgent!");
+    }
 
     private void Update()
     {
@@ -26,26 +34,46 @@ public class NPCKarenderya : MonoBehaviour
 
     private void StandBy()
     {
-        if (movementController.InDestination())
+        if (InDestination())
         {
             return;
         }
 
-        movementController.SetDestination(standLocation.position);
+        agent.SetDestination(standLocation.position);
     }
 
     private void Cooking()
     {
-        if (movementController.InDestination())
+        if (InDestination())
         {
             return;
         }
 
-        movementController.SetDestination(cookingLocation.position);
+        agent.SetDestination(cookingLocation.position);
     }
 
     private void Serve()
     {
         
+    }
+
+    public void SetDestination(Vector3 target)
+    {
+        agent.SetDestination(target);
+    }
+
+    public bool InDestination()
+    {
+        return Vector3.Distance(transform.position, agent.destination) < 2f;
+    }
+
+    public void Interact()
+    {
+        // Show food menu
+    }
+
+    public string GetPromptText()
+    {
+        return "[E] Buy Food";
     }
 }

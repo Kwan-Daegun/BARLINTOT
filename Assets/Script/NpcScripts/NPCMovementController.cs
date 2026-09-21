@@ -11,7 +11,7 @@ public class NPCMovementController : MonoBehaviour
     public NPCData npcData;
     private Transform counterPosition;
     private Transform exitPosition;
-    public NavMeshAgent agent;
+    private NavMeshAgent agent;
     private bool isWaitingAtCounter;
     private bool hasBeenServed;
 
