@@ -11,7 +11,7 @@ public class NPCMovementController : MonoBehaviour
     public NPCData npcData;
     private Transform counterPosition;
     private Transform exitPosition;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private bool isWaitingAtCounter;
     private bool hasBeenServed;
 
@@ -35,6 +35,17 @@ public class NPCMovementController : MonoBehaviour
 
         ApplyVisuals();
         WalkToCounter();
+    }
+
+    public void SetDestination(Vector3 target)
+    {
+        agent.SetDestination(target);
+        childAnimator?.Play("Walking");
+    }
+
+    public bool InDestination()
+    {
+        return Vector3.Distance(transform.position, agent.destination) < 2f;
     }
 
     /* private void ApplyVisuals()
@@ -73,8 +84,6 @@ public class NPCMovementController : MonoBehaviour
                 childAnimator.runtimeAnimatorController = npcData.animatorController;
         }
     }
-
-
 
     /*public void WalkToCounter()
     {
