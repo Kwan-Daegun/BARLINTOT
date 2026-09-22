@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,11 +16,24 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
     private NavMeshAgent agent;
 
     public Transform standLocation, cookingLocation;
+    public float nearbyThreshold = 2f;
+
+    [Header("Debug")]
+    [SerializeField] private Canvas debugCanvas;
+    [SerializeField] private bool showDebug = false;
+
+    [SerializeField] private TextMeshProUGUI distanceLabel;
 
     private void Awake()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         if (agent == null) Debug.LogError($"{gameObject.name} does not have a NavMeshAgent!");
+
+        debugCanvas.gameObject.SetActive(false);
+        if (showDebug)
+        {
+            debugCanvas.gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -30,26 +44,24 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
             case AI_STATE.COOKING: Cooking(); break;
             case AI_STATE.SERVING: Serve(); break;
         }
+
+        // Debug Code
+        distanceLabel.text = "Distance: " + Vector3.Distance(agent.destination, transform.position).ToString("F0");
     }
 
     private void StandBy()
     {
-        if (InDestination())
-        {
-            return;
-        }
-
         agent.SetDestination(standLocation.position);
     }
 
     private void Cooking()
     {
+        agent.SetDestination(cookingLocation.position);
+
         if (InDestination())
         {
-            return;
+            
         }
-
-        agent.SetDestination(cookingLocation.position);
     }
 
     private void Serve()
@@ -64,7 +76,7 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
 
     public bool InDestination()
     {
-        return Vector3.Distance(transform.position, agent.destination) < 2f;
+        return Vector3.Distance(agent.destination, transform.position) < nearbyThreshold;
     }
 
     public void Interact()
