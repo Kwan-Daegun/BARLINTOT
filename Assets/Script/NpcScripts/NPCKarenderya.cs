@@ -45,10 +45,7 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
         }
 
         debugCanvas.gameObject.SetActive(false);
-        if (showDebug)
-        {
-            debugCanvas.gameObject.SetActive(true);
-        }
+        if (showDebug) debugCanvas.gameObject.SetActive(true);
 
         if (updateTimer)
         {
@@ -140,6 +137,7 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (current_state != AI_STATE.WAITING) return;
         ShowMenu.Invoke();
     }
 
