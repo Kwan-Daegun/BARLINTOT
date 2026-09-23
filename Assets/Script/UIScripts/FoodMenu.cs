@@ -28,12 +28,12 @@ public class FoodMenu : MonoBehaviour
         if (openMenu)
         {
             gameObject.SetActive(true);
-            Camlook.LockCursor(true);
+            CamLook.SetUIOpen(true);
         }
         else
         {
             gameObject.SetActive(false);
-            Camlook.LockCursor(false);
+            CamLook.SetUIOpen(false);
         }
     }
 }

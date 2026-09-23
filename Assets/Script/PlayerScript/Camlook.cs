@@ -1,21 +1,21 @@
 using UnityEngine;
 
-public class Camlook : MonoBehaviour
+public class CamLook : MonoBehaviour
 {
     public float mouseSensitivity = 200f;
     public Transform playerBody;
 
+    private static bool inputLocked = false;
     private float xRotation = 0f;
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        SetCursorState(false);
     }
 
     private void Update()
     {
-        if (Cursor.visible == true) return;
+        if (inputLocked) return;
 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -24,13 +24,23 @@ public class Camlook : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
         playerBody.Rotate(Vector3.up * mouseX);
     }
 
-    public static void LockCursor(bool lockCursor)
+    /// <summary>
+    /// Call this when opening/closing a UI panel.
+    /// uiOpen = true  -> show cursor, stop camera movement
+    /// uiOpen = false -> hide cursor, resume camera movement
+    /// </summary>
+    public static void SetUIOpen(bool uiOpen)
     {
-        if (lockCursor)
+        inputLocked = uiOpen;
+        SetCursorState(uiOpen);
+    }
+
+    private static void SetCursorState(bool uiOpen)
+    {
+        if (uiOpen)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;

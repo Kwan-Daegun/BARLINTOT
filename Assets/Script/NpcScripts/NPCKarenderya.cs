@@ -1,42 +1,38 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-public class NPCKarenderya : MonoBehaviour, IInteractable
+public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
 {
     public Action ShowMenu;
 
     public enum AI_STATE
     {
-        IDLING,
+        LOITERING,
         WAITING,
         COOKING,
         SERVING
     }
 
-    public AI_STATE current_state = AI_STATE.IDLING;
-    private NavMeshAgent agent;
-
-    public Timer updateTimer;
     public Transform standLocation, cookingLocation;
     public Transform[] roamLocations;
     public Area3D playerDetector;
-    public float nearbyThreshold = 2f;
+
+    [Header("Roaming")]
+    private Timer roamTimer;
+    public float roamTimeMin = 3f;
+    public float roamTimeMax = 5f;
 
     private bool playerInside = false;
 
     [Header("Debug")]
     [SerializeField] private Canvas debugCanvas;
     [SerializeField] private bool showDebug = false;
-
     [SerializeField] private TextMeshProUGUI distanceLabel, stateLabel;
 
-    private void Awake()
+    protected override void Awake()
     {
-        agent = gameObject.GetComponent<NavMeshAgent>();
-        if (agent == null) Debug.LogError($"{gameObject.name} does not have a NavMeshAgent!");
+        base.Awake();
 
         if (playerDetector)
         {
@@ -47,11 +43,9 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
         debugCanvas.gameObject.SetActive(false);
         if (showDebug) debugCanvas.gameObject.SetActive(true);
 
-        if (updateTimer)
-        {
-            updateTimer.StartTime();
-            updateTimer.timeout.AddListener(UpdateAI);
-        }
+        roamTimer = gameObject.AddComponent<Timer>();
+        roamTimer.oneShot = true;
+        roamTimer.timeout.AddListener(GoToNextRoamLocation);
     }
 
     private void Update()
@@ -61,15 +55,15 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
         stateLabel.text = "State: " + current_state.ToString();
     }
 
-    private void UpdateAI()
+    protected override void UpdateAI()
     {
-        switch(current_state)
+        switch (current_state)
         {
-            case AI_STATE.IDLING: Procrastinating(); break;
+            case AI_STATE.LOITERING: Procrastinating(); break;
             case AI_STATE.WAITING: StandBy(); break;
             case AI_STATE.COOKING: Cooking(); break;
             case AI_STATE.SERVING: Serve(); break;
-        }        
+        }
     }
 
     private void PlayerEntered(GameObject body)
@@ -88,26 +82,42 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
 
     private void Procrastinating()
     {
-        // Roam around
         if (playerInside)
         {
             current_state = AI_STATE.WAITING;
+            roamTimer.StopTimer();
+            return;
         }
+
+        if (roamTimer.IsActive()) return;
+
+        if (InDestination())
+        {
+            roamTimer.StartTime(UnityEngine.Random.Range(roamTimeMin, roamTimeMax));
+        }
+    }
+
+    private void GoToNextRoamLocation()
+    {
+        if (roamLocations == null || roamLocations.Length == 0) return;
+
+        Transform roamTarget = roamLocations[UnityEngine.Random.Range(0, roamLocations.Length)];
+        MoveTo(roamTarget);
     }
 
     private void StandBy()
     {
         if (!playerInside)
         {
-            current_state = AI_STATE.IDLING;
+            current_state = AI_STATE.LOITERING;
         }
 
-        agent.SetDestination(standLocation.position);
+        MoveTo(standLocation);
     }
 
     private void Cooking()
     {
-        agent.SetDestination(cookingLocation.position);
+        MoveTo(cookingLocation);
 
         if (InDestination())
         {
@@ -117,7 +127,7 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
 
     private void Serve()
     {
-        agent.SetDestination(standLocation.position);
+        MoveTo(standLocation);
 
         if (InDestination())
         {
@@ -125,19 +135,9 @@ public class NPCKarenderya : MonoBehaviour, IInteractable
         }
     }
 
-    public void SetDestination(Vector3 target)
-    {
-        agent.SetDestination(target);
-    }
-
-    public bool InDestination()
-    {
-        return Vector3.Distance(agent.destination, transform.position) < nearbyThreshold;
-    }
-
     public void Interact()
     {
-        if (current_state != AI_STATE.WAITING) return;
+        if (!current_state.Equals(AI_STATE.WAITING)) return;
         ShowMenu.Invoke();
     }
 
