@@ -3,46 +3,82 @@ using UnityEngine;
 public class NPCInteractable : MonoBehaviour, IInteractable
 {
     private NPCMovementController movementController;
-    private bool hasRegistered = false;
+
+    [Header("Table Props")]
+    [SerializeField] private GameObject idPropInstance;
+    [SerializeField] private GameObject[] pictureProps;
+    [SerializeField] private Transform tableIdSlot;
+    [SerializeField] private Transform[] tablePictureSlots;
 
     private void Awake()
     {
         movementController = GetComponent<NPCMovementController>();
     }
 
-    private void Update()
+    private void Start()
     {
-        if (!hasRegistered && GameManager.Instance != null)
+        if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterNPC(movementController);
-            hasRegistered = true;
         }
+
+        movementController.onReachedCounter += HandleReachedCounter;
+    }
+
+    private void OnDestroy()
+    {
+        if (movementController != null)
+        {
+            movementController.onReachedCounter -= HandleReachedCounter;
+        }
+    }
+
+    private void HandleReachedCounter()
+    {
+        movementController.SetAskingOrder();
     }
 
     public string GetPromptText()
     {
-        if (!GameManager.Instance.hasActiveOrder)
+        return movementController.CurrentState switch
         {
-            return "[E] Take Order";
-        }
-
-        if (GameManager.Instance.hasFinishedLapida)
-        {
-            return "[E] Give Lapida";
-        }
-
-        return "Crafting in progress...";
+            NPCMovementController.NPCState.AskingOrder => "[E] Take Order",
+            NPCMovementController.NPCState.PresentingDocs => "[E] Give Lapida",
+            _ => string.Empty
+        };
     }
 
     public void Interact()
     {
-        if (!GameManager.Instance.hasActiveOrder)
+        switch (movementController.CurrentState)
         {
-            GameManager.Instance.AcceptOrder(movementController.npcData);
+            case NPCMovementController.NPCState.AskingOrder:
+                GameManager.Instance.AcceptOrder(movementController.npcData);
+                movementController.SetPresentingDocs();
+                PlaceDocsOnTable();
+                break;
+
+            case NPCMovementController.NPCState.PresentingDocs:
+                GameManager.Instance.TryDeliverLapida();
+                movementController.ServeOrReject();
+                break;
         }
-        else if (GameManager.Instance.hasFinishedLapida)
+    }
+
+    private void PlaceDocsOnTable()
+    {
+        if (idPropInstance != null && tableIdSlot != null)
         {
-            GameManager.Instance.TryDeliverLapida();
+            idPropInstance.SetActive(true);
+            idPropInstance.transform.position = tableIdSlot.position;
+            idPropInstance.transform.rotation = tableIdSlot.rotation;
+        }
+
+        for (int i = 0; i < pictureProps.Length && i < tablePictureSlots.Length; i++)
+        {
+            pictureProps[i].SetActive(true);
+            pictureProps[i].transform.position = tablePictureSlots[i].position;
+            pictureProps[i].transform.rotation = tablePictureSlots[i].rotation;
         }
     }
 }

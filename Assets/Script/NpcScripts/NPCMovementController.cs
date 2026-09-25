@@ -5,10 +5,14 @@ using System;
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPCMovementController : MonoBehaviour
 {
+    public enum NPCState { Walking, Standing, AskingOrder, PresentingDocs, Exiting }
+
     public Action onReachedCounter;
     public Action onExited;
 
     public NPCData npcData;
+    public NPCState CurrentState { get; private set; } = NPCState.Walking;
+
     private Transform counterPosition;
     private Transform exitPosition;
     private NavMeshAgent agent;
@@ -57,8 +61,19 @@ public class NPCMovementController : MonoBehaviour
 
     public void WalkToCounter()
     {
+        CurrentState = NPCState.Walking;
         isWaitingAtCounter = false;
         agent.SetDestination(counterPosition.position);
+    }
+
+    public void SetAskingOrder()
+    {
+        CurrentState = NPCState.AskingOrder;
+    }
+
+    public void SetPresentingDocs()
+    {
+        CurrentState = NPCState.PresentingDocs;
     }
 
     public void ServeOrReject()
@@ -70,6 +85,7 @@ public class NPCMovementController : MonoBehaviour
 
     private void WalkToExit()
     {
+        CurrentState = NPCState.Exiting;
         agent.SetDestination(exitPosition.position);
     }
 
@@ -90,6 +106,7 @@ public class NPCMovementController : MonoBehaviour
                 if (!isWaitingAtCounter && !hasBeenServed)
                 {
                     isWaitingAtCounter = true;
+                    CurrentState = NPCState.Standing;
                     onReachedCounter?.Invoke();
                 }
                 else if (hasBeenServed)
@@ -102,24 +119,24 @@ public class NPCMovementController : MonoBehaviour
         }
     }
 
-   private void HandleFootstepSound()
-{
-    if (audioSource == null || walkingSound == null) return;
-    if (npcData.type == NPCType.Anomaly && npcData.anomalyType != AnomalyType.Physical) return; // <- added
-
-    bool isMoving = agent.velocity.magnitude > 0.1f;
-
-    if (isMoving && !audioSource.isPlaying)
+    private void HandleFootstepSound()
     {
-        audioSource.clip = walkingSound;
-        audioSource.loop = true;
-        audioSource.Play();
+        if (audioSource == null || walkingSound == null) return;
+        if (npcData.type == NPCType.Anomaly && npcData.anomalyType != AnomalyType.Physical) return;
+
+        bool isMoving = agent.velocity.magnitude > 0.1f;
+
+        if (isMoving && !audioSource.isPlaying)
+        {
+            audioSource.clip = walkingSound;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+        else if (!isMoving && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
-    else if (!isMoving && audioSource.isPlaying)
-    {
-        audioSource.Stop();
-    }
-}
 
     private void TriggerDoorClose()
     {
