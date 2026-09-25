@@ -9,6 +9,7 @@ public class NPCMovementController : MonoBehaviour
 
     public Action onReachedCounter;
     public Action onExited;
+    public Action<NPCState> onStateChanged;
 
     public NPCData npcData;
     public NPCState CurrentState { get; private set; } = NPCState.Walking;
@@ -59,21 +60,28 @@ public class NPCMovementController : MonoBehaviour
         }
     }
 
+    private void SetState(NPCState newState)
+    {
+        if (CurrentState == newState) return;
+        CurrentState = newState;
+        onStateChanged?.Invoke(CurrentState);
+    }
+
     public void WalkToCounter()
     {
-        CurrentState = NPCState.Walking;
+        SetState(NPCState.Walking);
         isWaitingAtCounter = false;
         agent.SetDestination(counterPosition.position);
     }
 
     public void SetAskingOrder()
     {
-        CurrentState = NPCState.AskingOrder;
+        SetState(NPCState.AskingOrder);
     }
 
     public void SetPresentingDocs()
     {
-        CurrentState = NPCState.PresentingDocs;
+        SetState(NPCState.PresentingDocs);
     }
 
     public void ServeOrReject()
@@ -85,7 +93,7 @@ public class NPCMovementController : MonoBehaviour
 
     private void WalkToExit()
     {
-        CurrentState = NPCState.Exiting;
+        SetState(NPCState.Exiting);
         agent.SetDestination(exitPosition.position);
     }
 
@@ -106,7 +114,7 @@ public class NPCMovementController : MonoBehaviour
                 if (!isWaitingAtCounter && !hasBeenServed)
                 {
                     isWaitingAtCounter = true;
-                    CurrentState = NPCState.Standing;
+                    SetState(NPCState.Standing);
                     onReachedCounter?.Invoke();
                 }
                 else if (hasBeenServed)
