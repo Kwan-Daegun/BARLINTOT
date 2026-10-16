@@ -86,7 +86,8 @@ public class Door : MonoBehaviour
             activeDoor = null;
         }
 
-        if (activeDoor == this && Input.GetKeyDown(interactKey))
+        // Items take priority, so E doesn't open a door while you grab a key next to it
+        if (activeDoor == this && Input.GetKeyDown(interactKey) && !PickupItem.IsFocusingItem)
             Toggle();
 
         // Smooth rotation
