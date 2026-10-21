@@ -1,13 +1,13 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
-/// Sequential task list shown on the left side of the screen.
+/// One-by-one task system. Shows the CURRENT task only, with a live distance meter.
+/// Uses YOUR UI: drag the objects from the Hierarchy into the slots below.
 /// Add this to any empty GameObject (e.g. "GameManager").
-/// Steps are completed in order, top to bottom. Add more steps later in the Inspector.
-/// It starts automatically once the WakeUpIntro finishes.
+/// Starts automatically after the WakeUpIntro finishes.
 /// </summary>
 public class TaskListManager : MonoBehaviour
 {
@@ -16,19 +16,37 @@ public class TaskListManager : MonoBehaviour
     [System.Serializable]
     public class TaskStep
     {
+        [Tooltip("Shown in the Title text, e.g. 'Gather your things'.")]
         public string title = "New task";
 
-        [Tooltip("Items that must be collected for this step. Names must match the 'Item Name' on each PickupItem.")]
-        public string[] requiredItems;
+        [Tooltip("Shown in the Description text, e.g. 'Collect House Key'.")]
+        public string description = "";
 
-        [Tooltip("Where the path guide leads the player. Leave empty for no guide.")]
+        [Tooltip("Optional. Item to collect (must match 'Item Name' on a PickupItem). " +
+                 "The step completes when it's collected and the distance meter points to it.")]
+        public string itemName;
+
+        [Tooltip("Optional. A place to go. If empty and an item is set, the item's position is used.")]
         public Transform target;
 
-        [Tooltip("Complete this step when the player reaches the target.")]
+        [Tooltip("Complete this step when the player gets close to the target.")]
         public bool completeOnReachTarget;
-
         public float arriveDistance = 3f;
+
+        [Tooltip("Show the distance meter for this step.")]
+        public bool showDistance = true;
+
+        [Tooltip("Draw the path line on the ground to the target.")]
+        public bool showPathGuide;
     }
+
+    [Header("Your UI (drag from the Hierarchy)")]
+    [Tooltip("The object that holds the whole task UI. It is hidden until the wake-up intro ends. " +
+             "Best: the 'Canvas' object under HUD > Task.")]
+    public GameObject panel;
+    public TMP_Text titleText;
+    public TMP_Text descriptionText;
+    public TMP_Text distanceText;
 
     [Header("Tasks (completed in order, top to bottom)")]
     public List<TaskStep> steps = new List<TaskStep>();
@@ -37,14 +55,17 @@ public class TaskListManager : MonoBehaviour
     public bool startAfterWakeUp = true;
     public string playerTag = "Player";
 
-    [Header("Display (left side)")]
-    [Tooltip("Show future tasks greyed out. Off = they appear only when they become active.")]
-    public bool showUpcomingTasks = false;
-    public int fontSize = 26;
-    public float panelWidth = 460f;
-    public float leftMargin = 40f;
+    [Header("Distance meter")]
+    [Tooltip("{0} = distance in meters.")]
+    public string distanceFormat = "{0}m away";
 
-    [Header("Sound")]
+    [Header("Feel")]
+    public bool animateTransitions = true;
+    public Color completedColor = new Color(0.55f, 0.9f, 0.6f);
+    [Tooltip("How long the finished task stays green before the next one appears.")]
+    public float completedHold = 0.7f;
+    public float fadeTime = 0.25f;
+    public bool hidePanelWhenDone = true;
     public AudioClip stepCompleteSound;
 
     public bool Started { get; private set; }
@@ -55,32 +76,38 @@ public class TaskListManager : MonoBehaviour
         new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
 
     private PathGuide pathGuide;
-    private GameObject canvasObj;
-    private Text listText;
+    private CanvasGroup canvasGroup;
     private Transform player;
+    private Transform currentTarget;
     private WakeUpIntro intro;
+    private Color descriptionColor = Color.white;
+    private int lastShownMeters = -1;
+    private bool transitioning;
 
-    // Pre-fills the list when you first add the component
+    // Pre-fills the list when you add the component or press Reset
     private void Reset()
     {
-        steps = new List<TaskStep>
+        string[] items = { "House Key", "Gate Key", "Shop Key", "Wallet Bag", "Materials Bag", "Notebook" };
+
+        steps = new List<TaskStep>();
+        foreach (string item in items)
         {
-            new TaskStep
+            steps.Add(new TaskStep
             {
                 title = "Gather your things",
-                requiredItems = new[]
-                {
-                    "House Key", "Gate Key", "Shop Key",
-                    "Wallet Bag", "Materials Bag", "Notebook"
-                }
-            },
-            new TaskStep
-            {
-                title = "Go to the shop",
-                completeOnReachTarget = true,
-                arriveDistance = 3f
-            }
-        };
+                description = "Collect " + item,
+                itemName = item
+            });
+        }
+
+        steps.Add(new TaskStep
+        {
+            title = "Go to the shop",
+            description = "Head to the shop",
+            completeOnReachTarget = true,
+            arriveDistance = 3f,
+            showPathGuide = true
+        });
     }
 
     private void Awake()
@@ -93,8 +120,17 @@ public class TaskListManager : MonoBehaviour
         pathGuide = GetComponent<PathGuide>();
         if (pathGuide == null) pathGuide = gameObject.AddComponent<PathGuide>();
 
-        BuildUI();
-        canvasObj.SetActive(false);
+        if (panel == null || titleText == null || descriptionText == null)
+            Debug.LogWarning("TaskListManager: drag your Panel, Title Text and Description Text into the slots.");
+
+        if (descriptionText != null) descriptionColor = descriptionText.color;
+
+        if (panel != null)
+        {
+            canvasGroup = panel.GetComponent<CanvasGroup>();
+            if (canvasGroup == null) canvasGroup = panel.AddComponent<CanvasGroup>();
+            panel.SetActive(false); // hidden until the intro is over
+        }
 
         if (startAfterWakeUp)
         {
@@ -121,29 +157,33 @@ public class TaskListManager : MonoBehaviour
     {
         if (Started) return;
         Started = true;
-        canvasObj.SetActive(true);
+
+        if (panel != null) panel.SetActive(true);
+        if (canvasGroup != null) canvasGroup.alpha = animateTransitions ? 0f : 1f;
 
         if (steps.Count == 0)
         {
             AllDone = true;
-            RefreshUI();
             return;
         }
 
-        ActivateStep(0);
+        StartCoroutine(GoToStep(0, false));
     }
 
     private void Update()
     {
-        if (!Started || AllDone || steps.Count == 0) return;
+        if (!Started || AllDone || transitioning || steps.Count == 0) return;
+
+        EnsurePlayer();
+        UpdateDistance();
 
         TaskStep step = steps[CurrentIndex];
-        bool hasItems = step.requiredItems != null && step.requiredItems.Length > 0;
+        bool hasItem = !string.IsNullOrWhiteSpace(step.itemName);
 
-        // A step with no items and no reach-target is completed manually
-        if (!hasItems && !step.completeOnReachTarget) return;
+        // A step with no item and no reach-target is completed manually
+        if (!hasItem && !step.completeOnReachTarget) return;
 
-        if (hasItems && !HasAllItems(step)) return;
+        if (hasItem && !HasItem(step.itemName)) return;
         if (step.completeOnReachTarget && !ReachedTarget(step)) return;
 
         CompleteCurrentStep();
@@ -152,35 +192,127 @@ public class TaskListManager : MonoBehaviour
     /// <summary>Call this yourself for steps that complete by some custom event.</summary>
     public void CompleteCurrentStep()
     {
-        if (!Started || AllDone) return;
+        if (!Started || AllDone || transitioning) return;
 
         if (stepCompleteSound != null && Camera.main != null)
             AudioSource.PlayClipAtPoint(stepCompleteSound, Camera.main.transform.position);
 
-        CurrentIndex++;
-
-        if (CurrentIndex >= steps.Count)
-        {
-            AllDone = true;
-            pathGuide.SetTarget(null);
-            RefreshUI();
-        }
-        else
-        {
-            ActivateStep(CurrentIndex);
-        }
+        StartCoroutine(GoToStep(CurrentIndex + 1, true));
     }
 
-    private void ActivateStep(int index)
+    private IEnumerator GoToStep(int index, bool showCompleted)
+    {
+        transitioning = true;
+
+        // Little "done!" moment: the finished task turns green, then fades away
+        if (showCompleted && animateTransitions)
+        {
+            if (descriptionText != null) descriptionText.color = completedColor;
+            yield return new WaitForSeconds(completedHold);
+            yield return Fade(1f, 0f);
+        }
+
+        if (index >= steps.Count)
+        {
+            AllDone = true;
+            currentTarget = null;
+            pathGuide.SetTarget(null);
+            if (hidePanelWhenDone && panel != null) panel.SetActive(false);
+            transitioning = false;
+            yield break;
+        }
+
+        ApplyStep(index);
+
+        if (animateTransitions) yield return Fade(0f, 1f);
+        else if (canvasGroup != null) canvasGroup.alpha = 1f;
+
+        transitioning = false;
+    }
+
+    private IEnumerator Fade(float from, float to)
+    {
+        if (canvasGroup == null) yield break;
+
+        float duration = Mathf.Max(0.01f, fadeTime);
+        float time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(from, to, time / duration);
+            yield return null;
+        }
+        canvasGroup.alpha = to;
+    }
+
+    private void ApplyStep(int index)
     {
         CurrentIndex = index;
         TaskStep step = steps[index];
 
-        if (step.completeOnReachTarget && step.target == null)
-            Debug.LogWarning($"TaskListManager: step '{step.title}' needs a Target assigned, otherwise it can't be completed.");
+        if (titleText != null) titleText.text = step.title;
+        if (descriptionText != null)
+        {
+            descriptionText.text = step.description;
+            descriptionText.color = descriptionColor;
+        }
 
-        pathGuide.SetTarget(step.target);
-        RefreshUI();
+        // Work out where this step points to
+        EnsurePlayer();
+        currentTarget = step.target;
+
+        bool hasItem = !string.IsNullOrWhiteSpace(step.itemName);
+        if (currentTarget == null && hasItem && !HasItem(step.itemName))
+        {
+            Vector3 from = player != null ? player.position : Vector3.zero;
+            PickupItem item = PickupItem.FindByName(step.itemName, from);
+
+            if (item != null) currentTarget = item.transform;
+            else Debug.LogWarning($"TaskListManager: no PickupItem named '{step.itemName}' found in the scene.");
+        }
+
+        if (step.completeOnReachTarget && currentTarget == null)
+            Debug.LogWarning($"TaskListManager: step '{step.description}' needs a Target assigned, otherwise it can't be completed.");
+
+        pathGuide.SetTarget(step.showPathGuide ? currentTarget : null);
+
+        if (distanceText != null)
+            distanceText.gameObject.SetActive(step.showDistance && currentTarget != null);
+
+        lastShownMeters = -1;
+        UpdateDistance();
+    }
+
+    // ---------------------------------------------------------------- Distance
+
+    private void UpdateDistance()
+    {
+        if (distanceText == null || currentTarget == null || player == null) return;
+        if (!steps[CurrentIndex].showDistance) return;
+
+        Vector3 flat = currentTarget.position - player.position;
+        flat.y = 0f;
+        int meters = Mathf.RoundToInt(flat.magnitude);
+
+        if (meters == lastShownMeters) return; // only touch the text when the number changes
+        lastShownMeters = meters;
+        distanceText.text = string.Format(distanceFormat, meters);
+    }
+
+    private bool ReachedTarget(TaskStep step)
+    {
+        if (currentTarget == null || player == null) return false;
+
+        Vector3 flat = currentTarget.position - player.position;
+        flat.y = 0f;
+        return flat.magnitude <= step.arriveDistance;
+    }
+
+    private void EnsurePlayer()
+    {
+        if (player != null) return;
+        GameObject p = GameObject.FindWithTag(playerTag);
+        if (p != null) player = p.transform;
     }
 
     // ---------------------------------------------------------------- Items
@@ -189,143 +321,10 @@ public class TaskListManager : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(itemName)) return;
         inventory.Add(itemName.Trim());
-        RefreshUI();
     }
 
     public bool HasItem(string itemName)
     {
         return !string.IsNullOrWhiteSpace(itemName) && inventory.Contains(itemName.Trim());
-    }
-
-    private bool HasAllItems(TaskStep step)
-    {
-        foreach (string item in step.requiredItems)
-        {
-            if (!HasItem(item)) return false;
-        }
-        return true;
-    }
-
-    private bool ReachedTarget(TaskStep step)
-    {
-        if (step.target == null) return false;
-
-        if (player == null)
-        {
-            GameObject p = GameObject.FindWithTag(playerTag);
-            if (p == null) return false;
-            player = p.transform;
-        }
-
-        Vector3 flat = step.target.position - player.position;
-        flat.y = 0f;
-        return flat.magnitude <= step.arriveDistance;
-    }
-
-    // ---------------------------------------------------------------- UI
-
-    private void RefreshUI()
-    {
-        if (listText == null) return;
-
-        const string doneColor = "#8FD694";     // green-ish
-        const string greyColor = "#8F8F8F";
-
-        StringBuilder sb = new StringBuilder();
-        sb.Append("<b>TASKS</b>\n\n");
-
-        for (int i = 0; i < steps.Count; i++)
-        {
-            if (i > CurrentIndex && !showUpcomingTasks) break;
-
-            TaskStep step = steps[i];
-            bool done = AllDone || i < CurrentIndex;
-            bool current = !AllDone && i == CurrentIndex;
-
-            if (done)
-            {
-                sb.Append($"<color={doneColor}>[x] {step.title}</color>\n");
-            }
-            else if (current)
-            {
-                sb.Append($"<b>> {step.title}</b>\n");
-
-                if (step.requiredItems != null)
-                {
-                    foreach (string item in step.requiredItems)
-                    {
-                        if (HasItem(item))
-                            sb.Append($"      <color={greyColor}>[x] {item}</color>\n");
-                        else
-                            sb.Append($"      [ ] {item}\n");
-                    }
-                }
-            }
-            else
-            {
-                sb.Append($"<color={greyColor}>[ ] {step.title}</color>\n");
-            }
-
-            sb.Append("\n");
-        }
-
-        listText.text = sb.ToString().TrimEnd();
-    }
-
-    private void BuildUI()
-    {
-        canvasObj = new GameObject("TaskCanvas");
-        Canvas canvas = canvasObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 50;
-
-        CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        // Panel on the left, vertically centered, grows with its content
-        GameObject panel = new GameObject("TaskPanel");
-        panel.transform.SetParent(canvasObj.transform, false);
-
-        Image bg = panel.AddComponent<Image>();
-        bg.color = new Color(0f, 0f, 0f, 0.45f);
-        bg.raycastTarget = false;
-
-        RectTransform prt = panel.GetComponent<RectTransform>();
-        prt.anchorMin = new Vector2(0f, 0.5f);
-        prt.anchorMax = new Vector2(0f, 0.5f);
-        prt.pivot = new Vector2(0f, 0.5f);
-        prt.anchoredPosition = new Vector2(leftMargin, 0f);
-        prt.sizeDelta = new Vector2(panelWidth, 100f);
-
-        VerticalLayoutGroup layout = panel.AddComponent<VerticalLayoutGroup>();
-        layout.padding = new RectOffset(18, 18, 14, 14);
-        layout.childControlWidth = true;
-        layout.childControlHeight = true;
-        layout.childForceExpandWidth = true;
-        layout.childForceExpandHeight = false;
-
-        ContentSizeFitter fitter = panel.AddComponent<ContentSizeFitter>();
-        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
-
-        GameObject textObj = new GameObject("TaskText");
-        textObj.transform.SetParent(panel.transform, false);
-
-        listText = textObj.AddComponent<Text>();
-        listText.fontSize = fontSize;
-        listText.color = Color.white;
-        listText.alignment = TextAnchor.UpperLeft;
-        listText.horizontalOverflow = HorizontalWrapMode.Wrap;
-        listText.verticalOverflow = VerticalWrapMode.Overflow;
-        listText.supportRichText = true;
-        listText.raycastTarget = false;
-
-#if UNITY_2022_2_OR_NEWER
-        listText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-#else
-        listText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-#endif
     }
 }

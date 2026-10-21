@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,6 +54,30 @@ public class PickupItem : MonoBehaviour
     private static GameObject ownRoot;
     private static Text ownText;
 
+    /// <summary>Every active PickupItem in the scene (used by the task system).</summary>
+    public static readonly List<PickupItem> All = new List<PickupItem>();
+
+    /// <summary>Nearest active item with this name (case-insensitive), or null.</summary>
+    public static PickupItem FindByName(string wanted, Vector3 from)
+    {
+        PickupItem best = null;
+        float bestDistance = float.MaxValue;
+
+        foreach (PickupItem item in All)
+        {
+            if (item == null) continue;
+            if (!string.Equals(item.itemName, wanted, System.StringComparison.OrdinalIgnoreCase)) continue;
+
+            float d = (item.transform.position - from).sqrMagnitude;
+            if (d < bestDistance)
+            {
+                bestDistance = d;
+                best = item;
+            }
+        }
+        return best;
+    }
+
     /// <summary>True while the player is aiming at an item (or just picked one up this frame).</summary>
     public static bool IsFocusingItem => current != null || lastPickupFrame == Time.frameCount;
 
@@ -77,8 +102,14 @@ public class PickupItem : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (!All.Contains(this)) All.Add(this);
+    }
+
     private void OnDisable()
     {
+        All.Remove(this);
         if (current == this) current = null;
     }
 
