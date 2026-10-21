@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
 {
-    public Action ShowMenu;
-
     public enum AI_STATE
     {
         LOITERING,
@@ -138,7 +136,7 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
     public void Interact()
     {
         if (!current_state.Equals(AI_STATE.WAITING)) return;
-        ShowMenu.Invoke();
+        // Open Food Menu
     }
 
     public string GetPromptText()

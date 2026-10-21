@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5688233762765463585}
   - component: {fileID: 8171094002261300376}
   m_Layer: 5
-  m_Name: MaterialImage
+  m_Name: CardImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 1223879072352454182}
   - component: {fileID: 605619179890675513}
   m_Layer: 5
-  m_Name: MaterialName
+  m_Name: CardLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -500,13 +500,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7606005032339016450}
-  - component: {fileID: 9120177492598354758}
+  - component: {fileID: 2489295079706366816}
   - component: {fileID: 7942263543986957858}
   - component: {fileID: 414688319656157685}
   - component: {fileID: 5457552570659252686}
   - component: {fileID: 2791516016853582559}
   m_Layer: 5
-  m_Name: MatItem
+  m_Name: ItemCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -534,7 +534,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 88, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9120177492598354758
+--- !u!114 &2489295079706366816
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19673586, g: 0.15828353, b: 0.15793887, a: 1}
+  m_Color: {r: 0.14882928, g: 0.49610895, b: 0.7415691, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

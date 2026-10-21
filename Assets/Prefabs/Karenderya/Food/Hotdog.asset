@@ -15,5 +15,5 @@ MonoBehaviour:
   itemBought:
     m_PersistentCalls:
       m_Calls: []
-  itemName: Hotdog
-  itemSprite: {fileID: 21300000, guid: d4348ba4ed1eca997aeac34c708225e6, type: 3}
+  itemName: 
+  itemSprite: {fileID: 0}

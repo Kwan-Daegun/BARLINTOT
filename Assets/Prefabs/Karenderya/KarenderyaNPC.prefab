@@ -51,6 +51,7 @@ MonoBehaviour:
   current_state: 0
   updateInterval: 0.3
   nearbyThreshold: 2
+  foodMenu: {fileID: 11400000, guid: 86de8d9543fc47fe5b7a67d05a14e258, type: 2}
   standLocation: {fileID: 0}
   cookingLocation: {fileID: 0}
   roamLocations:
