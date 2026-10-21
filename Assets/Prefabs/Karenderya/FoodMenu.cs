@@ -8,7 +8,7 @@ public class FoodMenu : MonoBehaviour
     [Header("Food Items")]
     [SerializeField] private GameObject foodItemContainer;
     public GameObject foodItemNode;
-    public Food[] foods;
+    public Item[] foods;
 
     [Header("UI")]
     [SerializeField] private Button exitBtn;
@@ -34,15 +34,15 @@ public class FoodMenu : MonoBehaviour
             return;
         }
         
-        foreach(Food food in foods)
+        foreach(Item food in foods)
         {
             GameObject newFoodItem = Instantiate(foodItemNode, foodItemContainer.transform);
-            FoodItem foodItem = newFoodItem.GetComponent<FoodItem>();
+            ItemCard foodItem = newFoodItem.GetComponent<ItemCard>();
 
             if (foodItem)
             {
-                foodItem.foodLabel.text = food.foodName;
-                foodItem.foodImage.sprite = food.foodSprite;
+                foodItem.cardLabel.text = food.itemName;
+                foodItem.cardImage.sprite = food.itemSprite;
 
 
             }

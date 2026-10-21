@@ -2,14 +2,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FoodItem : MonoBehaviour
+/// <summary>
+/// Is used for shop item cards in shop menus
+/// </summary>
+public class ItemCard : MonoBehaviour
 {
-    public TextMeshProUGUI foodLabel;
-    public Image foodImage;
+    public TextMeshProUGUI cardLabel;
+    public Image cardImage;
     public Button buyBtn;
 
-    [Space]
-    [SerializeField] private AudioSource audioSource;
+    [Header("Audio")]
+    public AudioSource audioSource;
     public AudioClip buySfx;
 
     private void Start()
@@ -27,11 +30,4 @@ public class FoodItem : MonoBehaviour
         audioSource.clip = buySfx;
         audioSource.Play();
     }
-}
-
-[CreateAssetMenu(fileName = "FoodItem", menuName = "ScriptableObjects/Food")]
-public class Food : ScriptableObject
-{
-    public string foodName;
-    public Sprite foodSprite;
 }

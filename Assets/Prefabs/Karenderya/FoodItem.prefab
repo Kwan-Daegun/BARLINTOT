@@ -500,7 +500,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7606005032339016450}
-  - component: {fileID: 891218365631977076}
+  - component: {fileID: 2489295079706366816}
   - component: {fileID: 7942263543986957858}
   - component: {fileID: 414688319656157685}
   - component: {fileID: 5457552570659252686}
@@ -534,7 +534,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 88, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &891218365631977076
+--- !u!114 &2489295079706366816
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -543,11 +543,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4962781955439608056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40feedfb94f1ee87da96cdda939f1f7b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c01e77703d757b0288c48244b5935a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodLabel: {fileID: 605619179890675513}
-  foodImage: {fileID: 5688233762765463585}
+  cardLabel: {fileID: 605619179890675513}
+  cardImage: {fileID: 5688233762765463585}
   buyBtn: {fileID: 8510933596815466379}
   audioSource: {fileID: 2791516016853582559}
   buySfx: {fileID: 8300000, guid: 8b09bcd080a3d1a4d965ba7bff7e4631, type: 3}
