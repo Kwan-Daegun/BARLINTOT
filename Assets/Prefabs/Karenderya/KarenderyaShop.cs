@@ -39,5 +39,10 @@ public class KarenderyaShop : MonoBehaviour
         canvasGroup.alpha = alpha;
         canvasGroup.interactable = open;
         canvasGroup.blocksRaycasts = open;
+
+        if (open)
+            CamLook.SetUIOpen(true);
+        else
+            CamLook.SetUIOpen(false);
     }
 }
