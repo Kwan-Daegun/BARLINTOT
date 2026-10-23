@@ -84,6 +84,7 @@ public class NPCInteractable : MonoBehaviour, IInteractable
 }*/
 
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCInteractable : MonoBehaviour, IInteractable
@@ -97,12 +98,13 @@ public class NPCInteractable : MonoBehaviour, IInteractable
     [SerializeField] private Transform[] tablePictureSlots;
 
     private bool docsChecked;
+    private bool isPickupVisit;   // true when the customer comes back to collect a finished lapida
 
     /// <summary>
-    /// Fires after the player approves or rejects the documents.
-    /// (customer data, was the player's decision correct?) Used later for sanity / ghost reactions.
+    /// Fires after the player has marked all the documents.
+    /// (customer data, number of mistakes: 0 = perfect). Used later for sanity / ghost reactions.
     /// </summary>
-    public static event System.Action<NPCData, bool> OnVerdict;
+    public static event System.Action<NPCData, int> OnVerdict;
 
     private void Awake()
     {
@@ -127,9 +129,17 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         }
     }
 
+    /// <summary>Called by the spawner when this customer is coming back for their finished lapida.</summary>
+    public void MarkAsPickup()
+    {
+        isPickupVisit = true;
+        docsChecked = true;
+    }
+
     private void HandleReachedCounter()
     {
-        movementController.SetAskingOrder();
+        if (isPickupVisit) movementController.SetPresentingDocs(); // waiting to receive the lapida
+        else movementController.SetAskingOrder();
     }
 
     public string GetPromptText()
@@ -137,12 +147,18 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         // No prompt while one of the popups is open
         if (OrderChoiceUI.IsOpen || DocumentCheckUI.IsOpen) return string.Empty;
 
-        return movementController.CurrentState switch
+        switch (movementController.CurrentState)
         {
-            NPCMovementController.NPCState.AskingOrder => "[E] Take Order",
-            NPCMovementController.NPCState.PresentingDocs => docsChecked ? "[E] Give Lapida" : "[E] Check Documents",
-            _ => string.Empty
-        };
+            case NPCMovementController.NPCState.AskingOrder:
+                return "[E] Take Order";
+
+            case NPCMovementController.NPCState.PresentingDocs:
+                if (isPickupVisit) return "[E] Give Lapida";   // only when they come back for it
+                return docsChecked ? string.Empty : "[E] Check Documents";
+
+            default:
+                return string.Empty;
+        }
     }
 
     public void Interact()
@@ -154,7 +170,7 @@ public class NPCInteractable : MonoBehaviour, IInteractable
             case NPCMovementController.NPCState.AskingOrder:
                 if (OrderChoiceUI.Instance == null)
                 {
-                    // No popup set up in the scene: take the order right away, like before
+                    // No popup set up in the scene: take the order right away
                     AcceptCurrentOrder();
                     return;
                 }
@@ -168,21 +184,27 @@ public class NPCInteractable : MonoBehaviour, IInteractable
                 break;
 
             case NPCMovementController.NPCState.PresentingDocs:
-                // First E: look at the documents and decide. After that, E gives the lapida.
-                if (!docsChecked && DocumentCheckUI.Instance != null)
+                if (isPickupVisit)
                 {
-                    DocumentCheckUI.Instance.Show(
-                        movementController.npcData,
-                        () => Verdict(true),
-                        () => Verdict(false),
-                        () => movementController != null &&
-                              movementController.CurrentState == NPCMovementController.NPCState.PresentingDocs &&
-                              !docsChecked);
+                    DeliverLapida();
                     return;
                 }
 
-                GameManager.Instance.TryDeliverLapida();
-                movementController.ServeOrReject();
+                if (docsChecked) return;
+
+                if (DocumentCheckUI.Instance == null)
+                {
+                    // No document screen set up in the scene: treat every document as approved
+                    Verdict(new[] { true, true, true, true });
+                    return;
+                }
+
+                DocumentCheckUI.Instance.Show(
+                    movementController.npcData,
+                    Verdict,
+                    () => movementController != null &&
+                          movementController.CurrentState == NPCMovementController.NPCState.PresentingDocs &&
+                          !docsChecked);
                 break;
         }
     }
@@ -211,34 +233,69 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         GameManager.Instance.RejectCustomer();
     }
 
-    // The player pressed check mark (approve = true) or X (approve = false)
-    private void Verdict(bool approved)
+    // The player marked every document. marks[i] = true means "Yes, it's right", false means "No, it's wrong".
+    // Order: customer ID, deceased ID, photo, death document.
+    private void Verdict(bool[] marks)
     {
         if (docsChecked) return;
         docsChecked = true;
 
         NPCData data = movementController.npcData;
-        bool documentsAreFine = data.DocumentsMatch();
-        bool correct = approved == documentsAreFine;
+        bool[] truth = data.GetDocumentTruth();
 
-        if (correct)
+        bool approved = true;   // the order only goes ahead if EVERY document was marked Yes
+        int mistakes = 0;
+        List<string> notes = new List<string>();
+
+        for (int i = 0; i < truth.Length && i < marks.Length; i++)
         {
-            HintMessage.Show(approved
-                ? "Everything matches. Good."
-                : "Good catch. Those documents were wrong.");
-        }
-        else
-        {
-            HintMessage.Show(approved
-                ? "Wrong! " + data.DescribeMismatch()
-                : "Wrong! Those documents were fine.");
+            if (!marks[i]) approved = false;
+
+            if (marks[i] != truth[i])
+            {
+                mistakes++;
+                notes.Add(NPCData.DocumentNames[i] + (truth[i] ? " was fine" : " was wrong"));
+            }
         }
 
-        if (OnVerdict != null) OnVerdict.Invoke(data, correct);
+        string result = mistakes == 0
+            ? "All documents checked correctly."
+            : "Mistakes: " + string.Join(", ", notes) + ".";
+
+        // The player let something wrong through: explain what it was
+        if (approved && !data.DocumentsMatch()) result += "\n" + data.DescribeMismatch();
+
+        if (OnVerdict != null) OnVerdict.Invoke(data, mistakes);
         if (TaskListManager.Instance != null) TaskListManager.Instance.SendSignal("DocsChecked");
 
-        // X sends the customer away and cancels the order
-        if (!approved) GameManager.Instance.RejectCustomer();
+        if (!approved)
+        {
+            // At least one document was marked No: the customer leaves and the order is cancelled
+            HintMessage.Show(result);
+            GameManager.Instance.RejectCustomer();
+            return;
+        }
+
+        // Everything marked Yes: the customer pays and leaves. The order stays, so the lapida can be started.
+        int payment = data.payment;
+        if (PlayerStats.Instance != null) PlayerStats.Instance.AddMoney(payment);
+
+        GameManager.Instance.MarkOrderPaid();
+        GameManager.Instance.RegisterNPC(null);   // the order stays, the customer doesn't
+        movementController.ServeOrReject();
+
+        HintMessage.Show(result + "\nPayment received: " + PlayerStats.FormatMoney(payment));
+
+        if (TaskListManager.Instance != null) TaskListManager.Instance.SendSignal("OrderPaid");
+    }
+
+    // The customer came back and the lapida is finished
+    private void DeliverLapida()
+    {
+        if (GameManager.Instance.TryDeliverLapida())
+            HintMessage.Show("Thank you. It's perfect.");
+        else
+            HintMessage.Show("The lapida isn't finished yet.");
     }
 
     private void PlaceDocsOnTable()
