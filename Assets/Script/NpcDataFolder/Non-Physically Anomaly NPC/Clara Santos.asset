@@ -20,6 +20,12 @@ MonoBehaviour:
     birthDate: March 15, 1952
     deathDate: September 31, 2022
     message: Ang iyong alaala ay mananatiling buhay at ginto sa aming puso
+  documents:
+    customerIdName: Clara Santos
+    deceasedIdName: Sarah Santos
+    deceasedIdBirthDate: 05-06-1974
+    togetherPhoto: {fileID: 0}
+    deathDocName: Sarah Santos
+    deathDocDate: 09-07-1986
+    deathPlace: Barlin Strt
   normalModelPrefab: {fileID: 2769933560368169090, guid: 0e2d9cbe355133745a05aeb098c90056, type: 3}
-  physicalMorphPrefab: {fileID: 0}
-  logicErrorDescription: Same date
