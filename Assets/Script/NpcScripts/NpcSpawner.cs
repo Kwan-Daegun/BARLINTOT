@@ -64,7 +64,12 @@ public class NPCSpawner : MonoBehaviour
     [Tooltip("Customers only come while this shutter is open. Drag the object that has your ShutterButton.")]
     public ShutterButton shutter;
 
+    [Header("Pickup")]
+    [Tooltip("After the lapida is finished, the customer comes back to collect it after this many seconds.")]
+    public float pickupDelay = 3f;
+
     private NPCMovementController activeNPC; // only one customer at a time
+    private float pickupTimer;
 
     private void OnEnable()
     {
@@ -82,26 +87,64 @@ public class NPCSpawner : MonoBehaviour
         SpawnRandomNPC();
     }
 
+    private void Update()
+    {
+        // A finished lapida: the same customer comes back to collect it
+        GameManager gm = GameManager.Instance;
+        bool wantPickup = gm != null && gm.hasFinishedLapida && gm.currentOrderData != null
+                          && activeNPC == null && CanSpawnNow();
+
+        if (!wantPickup)
+        {
+            pickupTimer = 0f;
+            return;
+        }
+
+        pickupTimer += Time.deltaTime;
+        if (pickupTimer >= pickupDelay)
+        {
+            pickupTimer = 0f;
+            SpawnNPC(gm.currentOrderData, true);
+        }
+    }
+
+    private bool CanSpawnNow()
+    {
+        if (shutter != null && !shutter.IsOpen) return false;                                   // shop is closed
+        if (DayNightManager.Instance != null && DayNightManager.Instance.isNightTime) return false;
+        return true;
+    }
+
     public void SpawnRandomNPC()
     {
-        if (activeNPC != null) return;                                   // already a customer
-        if (shutter != null && !shutter.IsOpen) return;                  // shop is closed
+        if (activeNPC != null) return;                                                          // already a customer
+        if (!CanSpawnNow()) return;
 
-        if (DayNightManager.Instance != null && DayNightManager.Instance.isNightTime) return;
+        // An order is in progress: no new customers until it's finished
+        if (GameManager.Instance != null && GameManager.Instance.hasActiveOrder) return;
 
         if (allPossibleNPCs.Count == 0) return;
 
         int randomIndex = Random.Range(0, allPossibleNPCs.Count);
-        NPCData selectedData = allPossibleNPCs[randomIndex];
+        SpawnNPC(allPossibleNPCs[randomIndex], false);
+    }
 
+    private void SpawnNPC(NPCData data, bool forPickup)
+    {
         GameObject newNPC = Instantiate(baseNPCPrefab, spawnPoint.position, Quaternion.identity);
 
-        if (newNPC.TryGetComponent(out NPCMovementController controller))
+        if (!newNPC.TryGetComponent(out NPCMovementController controller))
         {
-            activeNPC = controller;
-            controller.Initialize(selectedData, counterPoint, exitPoint);
-            controller.onExited += HandleNPCExited;
+            Destroy(newNPC);
+            return;
         }
+
+        if (forPickup && newNPC.TryGetComponent(out NPCInteractable interactable))
+            interactable.MarkAsPickup();
+
+        activeNPC = controller;
+        controller.Initialize(data, counterPoint, exitPoint);
+        controller.onExited += HandleNPCExited;
     }
 
     private void HandleNPCExited()

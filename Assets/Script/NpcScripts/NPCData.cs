@@ -44,7 +44,7 @@ public struct HeadstoneOrder
 /// <summary>
 /// What is written on the customer's documents.
 /// LEAVE A FIELD BLANK = it matches the order (correct).
-/// TYPE A DIFFERENT VALUE = that document is WRONG, so the player should reject.
+/// TYPE A DIFFERENT VALUE = that document is WRONG, so the player should mark it No.
 /// </summary>
 [System.Serializable]
 public struct DocumentSet
@@ -61,6 +61,8 @@ public struct DocumentSet
 
     [Header("Photo (customer and deceased together)")]
     public Sprite togetherPhoto;
+    [Tooltip("Tick this if the photo is the WRONG one (for example it shows someone else). The player should mark it No.")]
+    public bool photoIsWrong;
 
     [Header("Death document")]
     [Tooltip("Blank = matches the deceased name in the order.")]
@@ -74,11 +76,17 @@ public struct DocumentSet
 [CreateAssetMenu(fileName = "NewNPCData", menuName = "Barlin/NPC Data")]
 public class NPCData : ScriptableObject
 {
+    /// <summary>Names of the four documents, in the order the checks are reported.</summary>
+    public static readonly string[] DocumentNames = { "Customer ID", "Deceased ID", "Photo", "Death document" };
+
     public string npcName;
     public NPCType type;
     public AnomalyType anomalyType;
 
     public HeadstoneOrder orderDetails;
+
+    [Tooltip("Money the customer pays when you approve their documents.")]
+    public int payment = 500;
 
     [Header("Documents the customer hands over")]
     public DocumentSet documents;
@@ -101,13 +109,48 @@ public class NPCData : ScriptableObject
         return d;
     }
 
-    /// <summary>True when every document agrees with the customer and the order.</summary>
-    public bool DocumentsMatch()
+    // Is each document right? (true = right, false = wrong)
+    public bool CustomerIdIsCorrect()
     {
-        return string.IsNullOrEmpty(DescribeMismatch());
+        DocumentSet d = GetDocuments();
+        return Same(d.customerIdName, npcName);
     }
 
-    /// <summary>Explains the first thing that doesn't match, or an empty string if everything matches.</summary>
+    public bool DeceasedIdIsCorrect()
+    {
+        DocumentSet d = GetDocuments();
+        return Same(d.deceasedIdName, orderDetails.deceasedName)
+            && Same(d.deceasedIdBirthDate, orderDetails.birthDate);
+    }
+
+    public bool PhotoIsCorrect()
+    {
+        return !documents.photoIsWrong;
+    }
+
+    public bool DeathDocIsCorrect()
+    {
+        DocumentSet d = GetDocuments();
+        return Same(d.deathDocName, orderDetails.deceasedName)
+            && Same(d.deathDocDate, orderDetails.deathDate);
+    }
+
+    /// <summary>The truth for all four documents, in the order of DocumentNames.</summary>
+    public bool[] GetDocumentTruth()
+    {
+        return new[] { CustomerIdIsCorrect(), DeceasedIdIsCorrect(), PhotoIsCorrect(), DeathDocIsCorrect() };
+    }
+
+    /// <summary>True for ghost-type customers, or when the documents were wrong (so approving them has consequences).</summary>
+    public bool IsHaunted => type == NPCType.Anomaly || !DocumentsMatch();
+
+    /// <summary>True when every document is right.</summary>
+    public bool DocumentsMatch()
+    {
+        return CustomerIdIsCorrect() && DeceasedIdIsCorrect() && PhotoIsCorrect() && DeathDocIsCorrect();
+    }
+
+    /// <summary>Explains the first thing that is wrong, or an empty string if everything is right.</summary>
     public string DescribeMismatch()
     {
         DocumentSet d = GetDocuments();
@@ -120,6 +163,9 @@ public class NPCData : ScriptableObject
 
         if (!Same(d.deceasedIdBirthDate, orderDetails.birthDate))
             return $"The deceased's ID birth date is {d.deceasedIdBirthDate}, but the order says {orderDetails.birthDate}.";
+
+        if (!PhotoIsCorrect())
+            return "The photo doesn't show the right people.";
 
         if (!Same(d.deathDocName, orderDetails.deceasedName))
             return $"The death document says {d.deathDocName}, but the order says {orderDetails.deceasedName}.";
