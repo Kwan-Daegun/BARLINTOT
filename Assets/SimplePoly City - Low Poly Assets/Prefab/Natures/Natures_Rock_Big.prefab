@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 4849874255005301750}
+  - component: {fileID: 2741972358895276442}
+  - component: {fileID: 8925288182376231605}
   m_Layer: 0
   m_Name: Natures_Rock_Big
   m_TagString: Untagged
@@ -87,8 +88,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4849874255005301750
-CapsuleCollider:
+--- !u!64 &2741972358895276442
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,8 +106,29 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.8718164
-  m_Height: 2.79
-  m_Direction: 0
-  m_Center: {x: 0.0009471178, y: 0.34, z: -0.06}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 9af6d300c4b48bb4ebe9539c44d73f0c, type: 3}
+--- !u!64 &8925288182376231605
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 9af6d300c4b48bb4ebe9539c44d73f0c, type: 3}
