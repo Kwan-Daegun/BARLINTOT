@@ -7071,7 +7071,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 730780942fea85243a14b31c1bdc5588, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 1a3c14fb119083d488a4a41948d87576, type: 2}
   m_BuildHeightMesh: 0
 --- !u!64 &368990919
 MeshCollider:
@@ -20493,6 +20493,7 @@ MonoBehaviour:
   squishSpeed: 2
   shutterSound: {fileID: 8300000, guid: 8b09bcd080a3d1a4d965ba7bff7e4631, type: 3}
   shutterAudioSource: {fileID: 1053836657}
+  startsOpen: 1
 --- !u!1 &1464132913
 GameObject:
   m_ObjectHideFlags: 0
@@ -21046,6 +21047,7 @@ MonoBehaviour:
   squishSpeed: 2
   shutterSound: {fileID: 8300000, guid: 8b09bcd080a3d1a4d965ba7bff7e4631, type: 3}
   shutterAudioSource: {fileID: 1053836657}
+  startsOpen: 1
 --- !u!1 &1505391111
 GameObject:
   m_ObjectHideFlags: 0
