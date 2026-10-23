@@ -4,7 +4,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class NPCBase<TState> : MonoBehaviour where TState : struct, System.Enum
 {
-    public TState current_state;
+    [Header("NPC Base")]
+    public TState currentState;
 
     protected NavMeshAgent agent;
     protected Transform target;

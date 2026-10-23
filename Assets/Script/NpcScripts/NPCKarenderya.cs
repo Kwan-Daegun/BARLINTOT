@@ -1,6 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
 {
@@ -12,6 +12,10 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
         SERVING
     }
 
+    [Header("NPC Karenderya")]
+    public KarenderyaShop shopMenu;
+    private Item food;
+
     public Transform standLocation, cookingLocation;
     public Transform[] roamLocations;
     public Area3D playerDetector;
@@ -22,6 +26,13 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
     public float roamTimeMax = 5f;
 
     private bool playerInside = false;
+
+    [Header("Cooking & Serving")]
+    public float cookTimeMin = 4f;
+    public float cookTimeMax = 8f;
+    public Transform foodPlacement; // where the food appears (counter, tray, etc.)
+    public UnityEvent<Item> foodServed; // hook up spawning/giving the food
+    private Timer cookTimer;
 
     [Header("Debug")]
     [SerializeField] private Canvas debugCanvas;
@@ -44,18 +55,24 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
         roamTimer = gameObject.AddComponent<Timer>();
         roamTimer.oneShot = true;
         roamTimer.timeout.AddListener(GoToNextRoamLocation);
+
+        cookTimer = gameObject.AddComponent<Timer>();
+        cookTimer.oneShot = true;
+        cookTimer.timeout.AddListener(OnCookingFinished);
+
+        shopMenu.foodBought.AddListener(OrderFood);
     }
 
     private void Update()
     {
         // Debug Code
         distanceLabel.text = "Distance: " + Vector3.Distance(agent.destination, transform.position).ToString("F0");
-        stateLabel.text = "State: " + current_state.ToString();
+        stateLabel.text = "State: " + currentState.ToString();
     }
 
     protected override void UpdateAI()
     {
-        switch (current_state)
+        switch (currentState)
         {
             case AI_STATE.LOITERING: Procrastinating(); break;
             case AI_STATE.WAITING: StandBy(); break;
@@ -82,7 +99,7 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
     {
         if (playerInside)
         {
-            current_state = AI_STATE.WAITING;
+            currentState = AI_STATE.WAITING;
             roamTimer.StopTimer();
             return;
         }
@@ -91,7 +108,7 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
 
         if (InDestination())
         {
-            roamTimer.StartTime(UnityEngine.Random.Range(roamTimeMin, roamTimeMax));
+            roamTimer.StartTime(Random.Range(roamTimeMin, roamTimeMax));
         }
     }
 
@@ -99,7 +116,7 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
     {
         if (roamLocations == null || roamLocations.Length == 0) return;
 
-        Transform roamTarget = roamLocations[UnityEngine.Random.Range(0, roamLocations.Length)];
+        Transform roamTarget = roamLocations[Random.Range(0, roamLocations.Length)];
         MoveTo(roamTarget);
     }
 
@@ -107,7 +124,7 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
     {
         if (!playerInside)
         {
-            current_state = AI_STATE.LOITERING;
+            currentState = AI_STATE.LOITERING;
         }
 
         MoveTo(standLocation);
@@ -117,10 +134,16 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
     {
         MoveTo(cookingLocation);
 
-        if (InDestination())
+        // Only start once we've arrived, and only once
+        if (InDestination() && !cookTimer.IsActive())
         {
-            // Add a timer or something
+            cookTimer.StartTime(Random.Range(cookTimeMin, cookTimeMax));
         }
+    }
+
+    private void OnCookingFinished()
+    {
+        currentState = AI_STATE.SERVING;
     }
 
     private void Serve()
@@ -129,14 +152,32 @@ public class NPCKarenderya : NPCBase<NPCKarenderya.AI_STATE>, IInteractable
 
         if (InDestination())
         {
-            // Place the food
+            PlaceFood();
+            food = null;
+            currentState = AI_STATE.WAITING;
         }
+    }
+
+    private void PlaceFood()
+    {
+        // Todo: Spawn Prefab here
+        foodServed.Invoke(food);
+    }
+
+    private void OrderFood(Item foodOrder)
+    {
+        if (currentState != AI_STATE.WAITING) return;
+
+        food = foodOrder;
+        currentState = AI_STATE.COOKING;
     }
 
     public void Interact()
     {
-        if (!current_state.Equals(AI_STATE.WAITING)) return;
-        // Open Food Menu
+        if (!currentState.Equals(AI_STATE.WAITING)) return;
+        shopMenu.OpenMenu(true);
+
+        // Wait for player to buy food, then switch to Cooking
     }
 
     public string GetPromptText()

@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a70ad1ab8035565678c09256b90631a8, type: 3}
-  m_Name: Hotdog
+  m_Name: Hotdogs
   m_EditorClassIdentifier: 
   itemBought:
     m_PersistentCalls:
       m_Calls: []
-  itemName: 
+  itemName: Hot Dogs
   itemSprite: {fileID: 0}
+  price: 25
