@@ -60,25 +60,25 @@ public class GameEndManager : MonoBehaviour
         GameManager.OnOrderDelivered -= HandleOrderDelivered;
     }
 
-    //private void Start()
-    //{
-    //    if (PlayerStats.Instance != null) PlayerStats.Instance.OnLose += HandleLose;
-    //    else Debug.LogWarning("GameEndManager: no PlayerStats found. Add PlayerStats to your GameManager object.");
-    //}
+    private void Start()
+    {
+        if (PlayerStats.Instance != null) PlayerStats.Instance.OnLose += HandleLose;
+        else Debug.LogWarning("GameEndManager: no PlayerStats found. Add PlayerStats to your GameManager object.");
+    }
 
-    //private void OnDestroy()
-    //{
-    //    if (PlayerStats.Instance != null) PlayerStats.Instance.OnLose -= HandleLose;
-    //    Time.timeScale = 1f;
-    //}
+    private void OnDestroy()
+    {
+        if (PlayerStats.Instance != null) PlayerStats.Instance.OnLose -= HandleLose;
+        Time.timeScale = 1f;
+    }
 
-    //private void HandleLose(PlayerStats.LoseReason reason)
-    //{
-    //    if (loseReasonText != null)
-    //        loseReasonText.text = reason == PlayerStats.LoseReason.Hp ? hpReason : familyReason;
+    private void HandleLose(PlayerStats.LoseReason reason)
+    {
+        if (loseReasonText != null)
+            loseReasonText.text = reason == PlayerStats.LoseReason.Hp ? hpReason : familyReason;
 
-    //    End(loseScreen);
-    //}
+        End(loseScreen);
+    }
 
     private void HandleOrderDelivered(NPCData data)
     {
