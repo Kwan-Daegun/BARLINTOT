@@ -73,6 +73,27 @@ public struct DocumentSet
     public string deathPlace;
 }
 
+/// <summary>
+/// What the customer says. LEAVE A LIST EMPTY to use the default lines.
+/// You can use these in any line: {name} {deceased} {birth} {death} {message} {payment}
+/// </summary>
+[System.Serializable]
+public struct NPCDialogue
+{
+    [Tooltip("When you start talking to them at the counter.")]
+    [TextArea(1, 3)] public string[] greeting;
+    [Tooltip("After you say Yes to taking the order.")]
+    [TextArea(1, 3)] public string[] orderAccepted;
+    [Tooltip("After you say No to taking the order.")]
+    [TextArea(1, 3)] public string[] orderDeclined;
+    [Tooltip("When they pay, after you approved every document.")]
+    [TextArea(1, 3)] public string[] paid;
+    [Tooltip("When you marked a document wrong and they have to leave.")]
+    [TextArea(1, 3)] public string[] documentsRejected;
+    [Tooltip("When you hand over the finished lapida.")]
+    [TextArea(1, 3)] public string[] delivered;
+}
+
 [CreateAssetMenu(fileName = "NewNPCData", menuName = "Barlin/NPC Data")]
 public class NPCData : ScriptableObject
 {
@@ -90,6 +111,9 @@ public class NPCData : ScriptableObject
 
     [Header("Documents the customer hands over")]
     public DocumentSet documents;
+
+    [Header("Dialogue (leave empty to use the default lines)")]
+    public NPCDialogue dialogue;
 
     public GameObject normalModelPrefab;
 
@@ -174,6 +198,49 @@ public class NPCData : ScriptableObject
             return $"The death document date is {d.deathDocDate}, but the order says {orderDetails.deathDate}.";
 
         return string.Empty;
+    }
+
+    // ---------------------------------------------------------------- Dialogue
+
+    private static readonly string[] DefaultGreeting =
+    {
+        "Good day. I'm {name}.",
+        "I'd like to order a headstone for {deceased}.",
+        "{birth} to {death}.",
+        "I'd like it to say: \"{message}\""
+    };
+    private static readonly string[] DefaultOrderAccepted = { "Thank you. Here are their papers." };
+    private static readonly string[] DefaultOrderDeclined = { "I see... I'm sorry to have bothered you." };
+    private static readonly string[] DefaultPaid = { "Here is {payment}.", "Please take good care of it." };
+    private static readonly string[] DefaultDocumentsRejected = { "Is something wrong with the papers?", "...I'll come back another time." };
+    private static readonly string[] DefaultDelivered = { "This is it... it's perfect.", "Thank you. Rest in peace, {deceased}." };
+
+    public string[] GreetingLines() { return Lines(dialogue.greeting, DefaultGreeting); }
+    public string[] OrderAcceptedLines() { return Lines(dialogue.orderAccepted, DefaultOrderAccepted); }
+    public string[] OrderDeclinedLines() { return Lines(dialogue.orderDeclined, DefaultOrderDeclined); }
+    public string[] PaidLines() { return Lines(dialogue.paid, DefaultPaid); }
+    public string[] DocumentsRejectedLines() { return Lines(dialogue.documentsRejected, DefaultDocumentsRejected); }
+    public string[] DeliveredLines() { return Lines(dialogue.delivered, DefaultDelivered); }
+
+    private string[] Lines(string[] custom, string[] defaults)
+    {
+        string[] source = (custom != null && custom.Length > 0) ? custom : defaults;
+        string[] result = new string[source.Length];
+        for (int i = 0; i < source.Length; i++) result[i] = Fill(source[i]);
+        return result;
+    }
+
+    /// <summary>Replaces {name}, {deceased}, {birth}, {death}, {message} and {payment} in a line.</summary>
+    public string Fill(string line)
+    {
+        if (string.IsNullOrEmpty(line)) return string.Empty;
+
+        return line.Replace("{name}", npcName)
+                   .Replace("{deceased}", orderDetails.deceasedName)
+                   .Replace("{birth}", orderDetails.birthDate)
+                   .Replace("{death}", orderDetails.deathDate)
+                   .Replace("{message}", orderDetails.message)
+                   .Replace("{payment}", PlayerStats.FormatMoney(payment));
     }
 
     private static bool Same(string a, string b)

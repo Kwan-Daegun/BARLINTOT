@@ -106,6 +106,9 @@ public class NPCInteractable : MonoBehaviour, IInteractable
     /// </summary>
     public static event System.Action<NPCData, int> OnVerdict;
 
+    private static bool AnyPopupOpen =>
+        OrderChoiceUI.IsOpen || DocumentCheckUI.IsOpen || DialogueUI.IsOpen;
+
     private void Awake()
     {
         movementController = GetComponent<NPCMovementController>();
@@ -144,8 +147,8 @@ public class NPCInteractable : MonoBehaviour, IInteractable
 
     public string GetPromptText()
     {
-        // No prompt while one of the popups is open
-        if (OrderChoiceUI.IsOpen || DocumentCheckUI.IsOpen) return string.Empty;
+        // No prompt while a popup or dialogue is open
+        if (AnyPopupOpen) return string.Empty;
 
         switch (movementController.CurrentState)
         {
@@ -163,24 +166,13 @@ public class NPCInteractable : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (OrderChoiceUI.IsOpen || DocumentCheckUI.IsOpen) return;
+        if (AnyPopupOpen) return;
 
         switch (movementController.CurrentState)
         {
             case NPCMovementController.NPCState.AskingOrder:
-                if (OrderChoiceUI.Instance == null)
-                {
-                    // No popup set up in the scene: take the order right away
-                    AcceptCurrentOrder();
-                    return;
-                }
-
-                // "Take this order?  Yes / No"
-                OrderChoiceUI.Instance.Show(
-                    AcceptCurrentOrder,
-                    DeclineCurrentOrder,
-                    () => movementController != null &&
-                          movementController.CurrentState == NPCMovementController.NPCState.AskingOrder);
+                // The customer talks first, then "Take this order?  Yes / No"
+                Say(movementController.npcData.GreetingLines(), ShowOrderChoice);
                 break;
 
             case NPCMovementController.NPCState.PresentingDocs:
@@ -191,22 +183,29 @@ public class NPCInteractable : MonoBehaviour, IInteractable
                 }
 
                 if (docsChecked) return;
-
-                if (DocumentCheckUI.Instance == null)
-                {
-                    // No document screen set up in the scene: treat every document as approved
-                    Verdict(new[] { true, true, true, true });
-                    return;
-                }
-
-                DocumentCheckUI.Instance.Show(
-                    movementController.npcData,
-                    Verdict,
-                    () => movementController != null &&
-                          movementController.CurrentState == NPCMovementController.NPCState.PresentingDocs &&
-                          !docsChecked);
+                OpenDocumentCheck();
                 break;
         }
+    }
+
+    // ---------------------------------------------------------------- Taking the order
+
+    private void ShowOrderChoice()
+    {
+        if (movementController.CurrentState != NPCMovementController.NPCState.AskingOrder) return;
+
+        if (OrderChoiceUI.Instance == null)
+        {
+            // No popup set up in the scene: take the order right away
+            AcceptCurrentOrder();
+            return;
+        }
+
+        OrderChoiceUI.Instance.Show(
+            AcceptCurrentOrder,
+            DeclineCurrentOrder,
+            () => movementController != null &&
+                  movementController.CurrentState == NPCMovementController.NPCState.AskingOrder);
     }
 
     // YES: the customer hands over the documents
@@ -218,19 +217,38 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         movementController.SetPresentingDocs();
         PlaceDocsOnTable();
 
-        // The customer says their name once. The player has to remember it to spot a wrong ID.
-        HintMessage.Show($"\"I'm {movementController.npcData.npcName}.\"");
-
         // Lets a task step finish with Signal Name = OrderTaken
         if (TaskListManager.Instance != null) TaskListManager.Instance.SendSignal("OrderTaken");
+
+        Say(movementController.npcData.OrderAcceptedLines(), null);
     }
 
-    // NO: the customer leaves
+    // NO: the customer says goodbye and leaves
     private void DeclineCurrentOrder()
     {
         if (movementController.CurrentState != NPCMovementController.NPCState.AskingOrder) return;
 
-        GameManager.Instance.RejectCustomer();
+        Say(movementController.npcData.OrderDeclinedLines(),
+            () => GameManager.Instance.RejectCustomer());
+    }
+
+    // ---------------------------------------------------------------- Checking the documents
+
+    private void OpenDocumentCheck()
+    {
+        if (DocumentCheckUI.Instance == null)
+        {
+            // No document screen set up in the scene: treat every document as approved
+            Verdict(new[] { true, true, true, true });
+            return;
+        }
+
+        DocumentCheckUI.Instance.Show(
+            movementController.npcData,
+            Verdict,
+            () => movementController != null &&
+                  movementController.CurrentState == NPCMovementController.NPCState.PresentingDocs &&
+                  !docsChecked);
     }
 
     // The player marked every document. marks[i] = true means "Yes, it's right", false means "No, it's wrong".
@@ -272,7 +290,7 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         {
             // At least one document was marked No: the customer leaves and the order is cancelled
             HintMessage.Show(result);
-            GameManager.Instance.RejectCustomer();
+            Say(data.DocumentsRejectedLines(), () => GameManager.Instance.RejectCustomer());
             return;
         }
 
@@ -282,20 +300,41 @@ public class NPCInteractable : MonoBehaviour, IInteractable
 
         GameManager.Instance.MarkOrderPaid();
         GameManager.Instance.RegisterNPC(null);   // the order stays, the customer doesn't
-        movementController.ServeOrReject();
 
         HintMessage.Show(result + "\nPayment received: " + PlayerStats.FormatMoney(payment));
-
         if (TaskListManager.Instance != null) TaskListManager.Instance.SendSignal("OrderPaid");
+
+        // They say their goodbye, then walk out
+        Say(data.PaidLines(), () => movementController.ServeOrReject());
     }
+
+    // ---------------------------------------------------------------- Picking up the lapida
 
     // The customer came back and the lapida is finished
     private void DeliverLapida()
     {
-        if (GameManager.Instance.TryDeliverLapida())
-            HintMessage.Show("Thank you. It's perfect.");
-        else
+        if (!GameManager.Instance.hasFinishedLapida)
+        {
             HintMessage.Show("The lapida isn't finished yet.");
+            return;
+        }
+
+        Say(movementController.npcData.DeliveredLines(),
+            () => GameManager.Instance.TryDeliverLapida());
+    }
+
+    // ---------------------------------------------------------------- Helpers
+
+    // The customer speaks. The dialogue stops by itself if they leave in the meantime.
+    private void Say(string[] lines, System.Action then)
+    {
+        DialogueUI.Say(movementController.npcData.npcName, lines, then, StillHere);
+    }
+
+    private bool StillHere()
+    {
+        return movementController != null &&
+               movementController.CurrentState != NPCMovementController.NPCState.Exiting;
     }
 
     private void PlaceDocsOnTable()
