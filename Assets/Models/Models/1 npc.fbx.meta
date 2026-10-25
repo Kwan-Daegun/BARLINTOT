@@ -80,7 +80,752 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: 1 npc(Clone)
+      parentName: 
+      position: {x: 0.13211945, y: 2.5167968, z: 0.21319725}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__BODY.001
+      parentName: 1 npc(Clone)
+      position: {x: -0.08045261, y: -0.93750316, z: -0.22891876}
+      rotation: {x: -0.6899167, y: 0.15496758, z: 0.15496756, w: 0.68991673}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform8
+      parentName: pasted__BODY.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__BODY.002
+      parentName: 1 npc(Clone)
+      position: {x: 3.8643029, y: -0.95499754, z: -0.21343866}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform19
+      parentName: pasted__BODY.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__BODY.003
+      parentName: 1 npc(Clone)
+      position: {x: -4.0500975, y: -0.9466633, z: -0.1936073}
+      rotation: {x: -0.7071015, y: 0.0027550412, z: 0.002755042, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform7
+      parentName: pasted__BODY.003
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Belt
+      parentName: 1 npc(Clone)
+      position: {x: -4.0687027, y: -0.016798554, z: -0.33827052}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform5
+      parentName: pasted__Belt
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Belt.001
+      parentName: 1 npc(Clone)
+      position: {x: 3.8470154, y: -0.025293121, z: -0.3596247}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform1
+      parentName: pasted__Belt.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Belt.002
+      parentName: 1 npc(Clone)
+      position: {x: -0.17131178, y: -0.046932984, z: -0.3321151}
+      rotation: {x: -0.6167609, y: 0.28481695, z: 0.2600283, w: 0.6862001}
+      scale: {x: 110.85, y: 110.85001, z: 110.85001}
+    - name: pasted__transform4
+      parentName: pasted__Belt.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CLOTHES.001
+      parentName: 1 npc(Clone)
+      position: {x: -0.12522835, y: -0.37005904, z: -0.29280546}
+      rotation: {x: -0.6899167, y: 0.15496758, z: 0.15496756, w: 0.68991673}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform15
+      parentName: pasted__CLOTHES.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CLOTHES.002
+      parentName: 1 npc(Clone)
+      position: {x: 3.8643036, y: -0.37257582, z: -0.27793345}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform12
+      parentName: pasted__CLOTHES.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CLOTHES.003
+      parentName: 1 npc(Clone)
+      position: {x: -4.0505996, y: -0.36424085, z: -0.2581001}
+      rotation: {x: -0.7071015, y: 0.0027550412, z: 0.002755042, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform17
+      parentName: pasted__CLOTHES.003
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ChefCAp
+      parentName: 1 npc(Clone)
+      position: {x: 3.9725685, y: 2.5167968, z: -0.21873344}
+      rotation: {x: -0.6802874, y: -0.11541241, z: -0.17890365, w: 0.70134336}
+      scale: {x: 110.85001, y: 110.85004, z: 110.850006}
+    - name: pasted__transform3
+      parentName: pasted__ChefCAp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Crab HEAD
+      parentName: 1 npc(Clone)
+      position: {x: -0.085724674, y: 1.3029205, z: 0.04156954}
+      rotation: {x: -0.69245017, y: 0.17291144, z: 0.17022674, w: 0.67943895}
+      scale: {x: 102.177086, y: 102.177086, z: 102.1771}
+    - name: pasted__transform9
+      parentName: pasted__Crab HEAD
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__HEAD.001
+      parentName: 1 npc(Clone)
+      position: {x: -0.10212754, y: 1.1360846, z: -0.27705157}
+      rotation: {x: -0.6899167, y: 0.15496758, z: 0.15496756, w: 0.68991673}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform16
+      parentName: pasted__HEAD.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__HEAD.002
+      parentName: 1 npc(Clone)
+      position: {x: 3.8643036, y: 1.141735, z: -0.26276806}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform13
+      parentName: pasted__HEAD.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__HEAD.003
+      parentName: 1 npc(Clone)
+      position: {x: -4.0504813, y: 1.1500616, z: -0.24293518}
+      rotation: {x: -0.7071015, y: 0.0027550412, z: 0.002755042, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform18
+      parentName: pasted__HEAD.003
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Hat
+      parentName: 1 npc(Clone)
+      position: {x: -4.058185, y: 2.3468945, z: -0.24425964}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform11
+      parentName: pasted__Hat
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Scarf
+      parentName: 1 npc(Clone)
+      position: {x: -0.0770203, y: 0.20813873, z: 0.06055046}
+      rotation: {x: -0.791076, y: 0.1952544, z: 0.14656396, w: 0.5608864}
+      scale: {x: 110.850006, y: 110.850006, z: 110.85}
+    - name: pasted__transform2
+      parentName: pasted__Scarf
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Scarf.001
+      parentName: 1 npc(Clone)
+      position: {x: -4.047031, y: 0.31954008, z: 0.19981715}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform14
+      parentName: pasted__Scarf.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Scarft 2
+      parentName: 1 npc(Clone)
+      position: {x: -3.9456584, y: 0.092734374, z: 0.35752764}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform10
+      parentName: pasted__Scarft 2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Scarft 3
+      parentName: 1 npc(Clone)
+      position: {x: -4.082378, y: 0.13982819, z: 0.3596247}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__transform21
+      parentName: pasted__Scarft 3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ch3 Scarft 1
+      parentName: 1 npc(Clone)
+      position: {x: 4.082378, y: 0.2969629, z: 0.019245509}
+      rotation: {x: -0.7038798, y: -0.019575557, z: 0.021918284, w: 0.70971096}
+      scale: {x: 115.63919, y: 115.63917, z: 115.63919}
+    - name: pasted__transform6
+      parentName: pasted__ch3 Scarft 1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ch3 Scarft 2
+      parentName: 1 npc(Clone)
+      position: {x: 3.6823854, y: 0.32327697, z: 0.063848056}
+      rotation: {x: -0.717366, y: -0.03503995, z: 0.033029165, w: 0.69503045}
+      scale: {x: 107.93989, y: 107.93989, z: 107.93989}
+    - name: pasted__transform20
+      parentName: pasted__ch3 Scarft 2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Scarft 4
+      parentName: 1 npc(Clone)
+      position: {x: -0.12593505, y: -2.4530241, z: -0.21579252}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.018932357, y: 0.018932357, z: 0.018932357}
+    - name: pasted__polySurface3
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform29
+      parentName: pasted__polySurface3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface30
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform27
+      parentName: pasted__polySurface30
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface32
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform24
+      parentName: pasted__polySurface32
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface34
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform28
+      parentName: pasted__polySurface34
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface35
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform25
+      parentName: pasted__polySurface35
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface37
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform30
+      parentName: pasted__polySurface37
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface39
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform26
+      parentName: pasted__polySurface39
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform22
+      parentName: pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pSphere1
+      parentName: 1 npc(Clone)
+      position: {x: -0.0507086, y: -2.4407046, z: -0.21839096}
+      rotation: {x: 0, y: -0.6050553, z: -0, w: 0.79618347}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform23
+      parentName: pasted__pSphere1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface37
+      parentName: 1 npc(Clone)
+      position: {x: -0.050981544, y: -2.468009, z: -0.21814607}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface69
+      parentName: pasted__polySurface37
+      position: {x: 0.000000007536754, y: -0.009850036, z: 0.07300847}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform32
+      parentName: pasted__polySurface69
+      position: {x: -0.0811379, y: -0.038937762, z: 0.0018488222}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform31
+      parentName: pasted__polySurface37
+      position: {x: -0.0811379, y: -0.0487878, z: 0.004948818}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__group3
+      parentName: 1 npc(Clone)
+      position: {x: -0, y: 0.0057417015, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__group2
+      parentName: pasted__group3
+      position: {x: -0.051081914, y: -2.4464464, z: -0.21839097}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__group
+      parentName: pasted__pasted__group2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__pasted__pSphere1
+      parentName: pasted__pasted__pasted__group
+      position: {x: 0.00036003112, y: 0, z: 0.07000269}
+      rotation: {x: 0, y: -0.6050553, z: -0, w: 0.79618347}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform35
+      parentName: pasted__pasted__pasted__pasted__pSphere1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__group6
+      parentName: 1 npc(Clone)
+      position: {x: -0, y: 0.0057417015, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__group3
+      parentName: pasted__group6
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__BODY.001
+      parentName: pasted__pasted__group3
+      position: {x: -0.08045261, y: -0.94324493, z: -0.22891876}
+      rotation: {x: -0.6899167, y: 0.15496758, z: 0.15496756, w: 0.68991673}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform8
+      parentName: pasted__pasted__pasted__BODY.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__BODY.002
+      parentName: pasted__pasted__group3
+      position: {x: 3.8643029, y: -0.96073925, z: -0.21343866}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform19
+      parentName: pasted__pasted__pasted__BODY.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__BODY.003
+      parentName: pasted__pasted__group3
+      position: {x: -4.0500975, y: -0.9524051, z: -0.1936073}
+      rotation: {x: -0.7071015, y: 0.0027550412, z: 0.002755042, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform7
+      parentName: pasted__pasted__pasted__BODY.003
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Belt
+      parentName: pasted__pasted__group3
+      position: {x: -4.0687027, y: -0.022540282, z: -0.33827052}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform5
+      parentName: pasted__pasted__pasted__Belt
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Belt.001
+      parentName: pasted__pasted__group3
+      position: {x: 3.8470154, y: -0.03103485, z: -0.3596247}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform1
+      parentName: pasted__pasted__pasted__Belt.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Belt.002
+      parentName: pasted__pasted__group3
+      position: {x: -0.17131178, y: -0.05267471, z: -0.3321151}
+      rotation: {x: -0.6167609, y: 0.28481695, z: 0.2600283, w: 0.6862001}
+      scale: {x: 110.85, y: 110.85001, z: 110.85001}
+    - name: pasted__pasted__pasted__transform4
+      parentName: pasted__pasted__pasted__Belt.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__CLOTHES.001
+      parentName: pasted__pasted__group3
+      position: {x: -0.12522835, y: -0.37580076, z: -0.29280546}
+      rotation: {x: -0.6899167, y: 0.15496758, z: 0.15496756, w: 0.68991673}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform15
+      parentName: pasted__pasted__pasted__CLOTHES.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__CLOTHES.002
+      parentName: pasted__pasted__group3
+      position: {x: 3.8643036, y: -0.37831756, z: -0.27793345}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform12
+      parentName: pasted__pasted__pasted__CLOTHES.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__CLOTHES.003
+      parentName: pasted__pasted__group3
+      position: {x: -4.0505996, y: -0.3699826, z: -0.2581001}
+      rotation: {x: -0.7071015, y: 0.0027550412, z: 0.002755042, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform17
+      parentName: pasted__pasted__pasted__CLOTHES.003
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__ChefCAp
+      parentName: pasted__pasted__group3
+      position: {x: 3.9725685, y: 2.511055, z: -0.21873344}
+      rotation: {x: -0.6802874, y: -0.11541241, z: -0.17890365, w: 0.70134336}
+      scale: {x: 110.85001, y: 110.85004, z: 110.850006}
+    - name: pasted__pasted__pasted__transform3
+      parentName: pasted__pasted__pasted__ChefCAp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Crab HEAD
+      parentName: pasted__pasted__group3
+      position: {x: -0.085724674, y: 1.2971787, z: 0.04156954}
+      rotation: {x: -0.69245017, y: 0.17291144, z: 0.17022674, w: 0.67943895}
+      scale: {x: 102.177086, y: 102.177086, z: 102.1771}
+    - name: pasted__pasted__pasted__transform9
+      parentName: pasted__pasted__pasted__Crab HEAD
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__HEAD.001
+      parentName: pasted__pasted__group3
+      position: {x: -0.10212754, y: 1.1303428, z: -0.27705157}
+      rotation: {x: -0.6899167, y: 0.15496758, z: 0.15496756, w: 0.68991673}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform16
+      parentName: pasted__pasted__pasted__HEAD.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__HEAD.002
+      parentName: pasted__pasted__group3
+      position: {x: 3.8643036, y: 1.1359931, z: -0.26276806}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform13
+      parentName: pasted__pasted__pasted__HEAD.002
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__HEAD.003
+      parentName: pasted__pasted__group3
+      position: {x: -4.0504813, y: 1.1443199, z: -0.24293518}
+      rotation: {x: -0.7071015, y: 0.0027550412, z: 0.002755042, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform18
+      parentName: pasted__pasted__pasted__HEAD.003
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Hat
+      parentName: pasted__pasted__group3
+      position: {x: -4.058185, y: 2.3411527, z: -0.24425964}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform11
+      parentName: pasted__pasted__pasted__Hat
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Scarf
+      parentName: pasted__pasted__group3
+      position: {x: -0.0770203, y: 0.202397, z: 0.06055046}
+      rotation: {x: -0.791076, y: 0.1952544, z: 0.14656396, w: 0.5608864}
+      scale: {x: 110.850006, y: 110.850006, z: 110.85}
+    - name: pasted__pasted__pasted__transform2
+      parentName: pasted__pasted__pasted__Scarf
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Scarf.001
+      parentName: pasted__pasted__group3
+      position: {x: -4.047031, y: 0.31379837, z: 0.19981715}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform14
+      parentName: pasted__pasted__pasted__Scarf.001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Scarft 2
+      parentName: pasted__pasted__group3
+      position: {x: -3.9456584, y: 0.086992644, z: 0.35752764}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform10
+      parentName: pasted__pasted__pasted__Scarft 2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Scarft 3
+      parentName: pasted__pasted__group3
+      position: {x: -4.082378, y: 0.13408646, z: 0.3596247}
+      rotation: {x: -0.7071015, y: 0.0027550254, z: 0.0027550263, w: 0.7071013}
+      scale: {x: 98.74302, y: 98.74302, z: 98.74302}
+    - name: pasted__pasted__pasted__transform21
+      parentName: pasted__pasted__pasted__Scarft 3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__ch3 Scarft 1
+      parentName: pasted__pasted__group3
+      position: {x: 4.082378, y: 0.29122114, z: 0.019245509}
+      rotation: {x: -0.7038798, y: -0.019575557, z: 0.021918284, w: 0.70971096}
+      scale: {x: 115.63919, y: 115.63917, z: 115.63919}
+    - name: pasted__pasted__pasted__transform6
+      parentName: pasted__pasted__pasted__ch3 Scarft 1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__ch3 Scarft 2
+      parentName: pasted__pasted__group3
+      position: {x: 3.6823854, y: 0.31753525, z: 0.063848056}
+      rotation: {x: -0.717366, y: -0.03503995, z: 0.033029165, w: 0.69503045}
+      scale: {x: 107.93989, y: 107.93989, z: 107.93989}
+    - name: pasted__pasted__pasted__transform20
+      parentName: pasted__pasted__pasted__ch3 Scarft 2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__Scarft 4
+      parentName: pasted__pasted__group3
+      position: {x: -0.12593505, y: -2.458766, z: -0.21579252}
+      rotation: {x: -0, y: -0.0029571676, z: -0.5996109, w: 0.8002863}
+      scale: {x: 0.018932357, y: 0.018932357, z: 0.018932357}
+    - name: pasted__pasted__pasted__polySurface3
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform29
+      parentName: pasted__pasted__pasted__polySurface3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface30
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform27
+      parentName: pasted__pasted__pasted__polySurface30
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface32
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform24
+      parentName: pasted__pasted__pasted__polySurface32
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface34
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform28
+      parentName: pasted__pasted__pasted__polySurface34
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface35
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform25
+      parentName: pasted__pasted__pasted__polySurface35
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface37
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform30
+      parentName: pasted__pasted__pasted__polySurface37
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface39
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform26
+      parentName: pasted__pasted__pasted__polySurface39
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform22
+      parentName: pasted__pasted__pasted__Scarft 4
+      position: {x: -0.037406605, y: -2.7614028, z: 0.013618799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__pSphere1
+      parentName: pasted__pasted__group3
+      position: {x: -0.0507086, y: -2.4464464, z: -0.21839096}
+      rotation: {x: 0, y: -0.6050553, z: -0, w: 0.79618347}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform23
+      parentName: pasted__pasted__pasted__pSphere1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface37
+      parentName: pasted__pasted__group3
+      position: {x: -0.050981544, y: -2.4737506, z: -0.21814607}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface71
+      parentName: pasted__pasted__pasted__polySurface37
+      position: {x: -0.0811379, y: -0.0487878, z: 0.07443874}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform33
+      parentName: pasted__pasted__pasted__polySurface71
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__polySurface74
+      parentName: pasted__pasted__pasted__polySurface37
+      position: {x: 0.0000000099209405, y: 0.008228591, z: 0.0721803}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0732859, y: 1, z: 0.811608}
+    - name: pasted__transform34
+      parentName: pasted__pasted__pasted__polySurface74
+      position: {x: -0.08113791, y: -0.05701639, z: 0.0032346505}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__pasted__pasted__transform31
+      parentName: pasted__pasted__pasted__polySurface37
+      position: {x: -0.0811379, y: -0.0487878, z: 0.004948818}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__group3_pasted__group2_pasted__pasted__group_pasted__pasted__pasted__pSphere1
+      parentName: 1 npc(Clone)
+      position: {x: -0.050981537, y: -2.468009, z: -0.14819048}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface75
+      parentName: pasted__group3_pasted__group2_pasted__pasted__group_pasted__pasted__pasted__pSphere1
+      position: {x: -0.0811379, y: -0.0487878, z: -0.06500676}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform39
+      parentName: pasted__polySurface75
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface76
+      parentName: pasted__group3_pasted__group2_pasted__pasted__group_pasted__pasted__pasted__pSphere1
+      position: {x: -0.0811379, y: -0.0487878, z: -0.06472833}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform40
+      parentName: pasted__polySurface76
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface77
+      parentName: pasted__group3_pasted__group2_pasted__pasted__group_pasted__pasted__pasted__pSphere1
+      position: {x: -0.0811379, y: -0.0487878, z: -0.06465346}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform38
+      parentName: pasted__polySurface77
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface78
+      parentName: pasted__group3_pasted__group2_pasted__pasted__group_pasted__pasted__pasted__pSphere1
+      position: {x: -0.0811379, y: -0.0487878, z: -0.051317137}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 0.8076984}
+    - name: pasted__transform37
+      parentName: pasted__polySurface78
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__transform36
+      parentName: pasted__group3_pasted__group2_pasted__pasted__group_pasted__pasted__pasted__pSphere1
+      position: {x: -0.0811379, y: -0.0487878, z: -0.06500676}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__polySurface76
+      parentName: 1 npc(Clone)
+      position: {x: -0.050981537, y: -2.468009, z: -0.21245472}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5

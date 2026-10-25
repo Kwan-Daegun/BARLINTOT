@@ -20,7 +20,6 @@ MonoBehaviour:
     birthDate: February 31, 1972
     deathDate: November 02, 2018
     message: Rest in peace in the eternal, loving arms of the Lord
-  normalModelPrefab: {fileID: 5557327951299580288, guid: f0ac6fb9ada49f24683e3eca20786103, type: 3}
+  normalModelPrefab: {fileID: 2769933560368169090, guid: 0e2d9cbe355133745a05aeb098c90056, type: 3}
   physicalMorphPrefab: {fileID: 0}
-  animatorController: {fileID: 9100000, guid: 1b73a17fe8cacfd42abb33d2c4b04f3e, type: 2}
   logicErrorDescription: Same date

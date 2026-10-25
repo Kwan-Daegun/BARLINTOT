@@ -20,7 +20,6 @@ MonoBehaviour:
     birthDate: Recently
     deathDate: Never
     message: May perpetual light shine upon your soul for all eternity
-  normalModelPrefab: {fileID: 913845681951795218, guid: 2435736d6adca23458edd7c80c901e3e, type: 3}
+  normalModelPrefab: {fileID: 2769933560368169090, guid: 0e2d9cbe355133745a05aeb098c90056, type: 3}
   physicalMorphPrefab: {fileID: 0}
-  animatorController: {fileID: 9100000, guid: 1b73a17fe8cacfd42abb33d2c4b04f3e, type: 2}
   logicErrorDescription: Same date

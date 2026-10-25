@@ -19,8 +19,15 @@ MonoBehaviour:
     deceasedName: Clara Santos
     birthDate: March 15, 1952
     deathDate: September 31, 2022
-    message: Ang iyong alaala ay mananatiling buhay at ginto sa aming puso
-  normalModelPrefab: {fileID: 6584613354768528393, guid: bae26acf817c6dc4e82f95d9ef4ab46a, type: 3}
-  physicalMorphPrefab: {fileID: 0}
-  animatorController: {fileID: 9100000, guid: 1b73a17fe8cacfd42abb33d2c4b04f3e, type: 2}
-  logicErrorDescription: Same date
+    message: In loving memories
+  payment: 500
+  documents:
+    customerIdName: Clara Santos
+    deceasedIdName: Sarah Santos
+    deceasedIdBirthDate: 05-06-1974
+    togetherPhoto: {fileID: 0}
+    photoIsWrong: 0
+    deathDocName: Sarah Santos
+    deathDocDate: 09-07-1986
+    deathPlace: Barlin Strt
+  normalModelPrefab: {fileID: 919132149155446097, guid: f862e87daaecbe948a63878028f85634, type: 3}

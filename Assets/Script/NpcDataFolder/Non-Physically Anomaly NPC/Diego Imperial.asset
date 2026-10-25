@@ -20,7 +20,6 @@ MonoBehaviour:
     birthDate: October 24, 2099
     deathDate: March 19, 2015
     message: Gone from our sight, but never from our memories. Until we meet again
-  normalModelPrefab: {fileID: 1616406060653692748, guid: f71041fd118fbb34aa9d2dd6a1d96fce, type: 3}
+  normalModelPrefab: {fileID: 2769933560368169090, guid: 0e2d9cbe355133745a05aeb098c90056, type: 3}
   physicalMorphPrefab: {fileID: 0}
-  animatorController: {fileID: 9100000, guid: 1b73a17fe8cacfd42abb33d2c4b04f3e, type: 2}
   logicErrorDescription: Same date
