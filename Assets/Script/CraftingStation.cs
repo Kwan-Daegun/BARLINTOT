@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.Playables;
 using System.Collections;
 
 public class CraftingStation : MonoBehaviour, IInteractable
@@ -10,28 +12,47 @@ public class CraftingStation : MonoBehaviour, IInteractable
     public MonoBehaviour playerMovementScript;
     public AudioClip[] craftingSounds;
 
-    [Header("Horror Settings")]
-    [Range(0f, 100f)]
-    public float jumpscareChancePercent = 50f;
+    [Header("Optional Tool Animation (fill in on the stencil station only)")]
+    [Tooltip("Your chisel .anim file.")]
+    public AnimationClip toolClip;
+    [Tooltip("The Animator on the object the clip animates (the chisel, or the player's arms).")]
+    public Animator toolAnimator;
+    [Tooltip("Optional: chisel model that is only visible while crafting.")]
+    public GameObject toolObject;
 
     private bool isCompleted = false;
     private bool isCrafting = false;
     private AudioSource audioSource;
+    private AudioSource playerAudio;
+    private PlayableGraph toolGraph;
 
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        if (playerMovementScript != null)
+            playerAudio = playerMovementScript.GetComponent<AudioSource>();
+
+        if (toolObject != null) toolObject.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        StopToolGraph();
     }
 
     public string GetPromptText()
     {
-        if (!GameManager.Instance.hasActiveOrder)
+        GameManager gm = GameManager.Instance;
+
+        if (!gm.hasActiveOrder)
             return "Need an order first";
+        if (!gm.orderPaid)
+            return "Customer hasn't paid yet";
         if (isCompleted)
             return stationName + " (Done)";
         if (isCrafting)
             return "Crafting...";
-        if (GameManager.Instance.currentCraftingStep != stationStepNumber - 1)
+        if (gm.currentCraftingStep != stationStepNumber - 1)
             return "Finish previous step first";
 
         return "[E] Use " + stationName;
@@ -41,33 +62,23 @@ public class CraftingStation : MonoBehaviour, IInteractable
     {
         if (isCompleted || isCrafting) return;
 
-        if (GameManager.Instance.currentOrderData != null &&
-            GameManager.Instance.currentOrderData.type == NPCType.Anomaly)
-        {
-            float roll = Random.Range(0f, 100f);
-
-            if (roll <= jumpscareChancePercent)
-            {
-                StartCoroutine(AnomalyInterruptRoutine());
-                return;
-            }
-        }
-
         if (GameManager.Instance.TryStartCraftingStep(stationStepNumber))
             StartCoroutine(CraftRoutine());
     }
 
-    private IEnumerator AnomalyInterruptRoutine()
+    private void SetToolAnimation(bool active)
     {
-        isCrafting = true;
-        if (playerMovementScript != null) playerMovementScript.enabled = false;
+        if (toolObject != null) toolObject.SetActive(active);
 
-        if (stationStepNumber == 1)
-            JumpscareManager.Instance.TriggerComputerScare();
-        else
-            JumpscareManager.Instance.TriggerPaintTableScare();
+        StopToolGraph();
 
-        yield return null;
+        if (active && toolClip != null && toolAnimator != null)
+            AnimationPlayableUtilities.PlayClip(toolAnimator, toolClip, out toolGraph);
+    }
+
+    private void StopToolGraph()
+    {
+        if (toolGraph.IsValid()) toolGraph.Destroy();
     }
 
     private IEnumerator CraftRoutine()
@@ -77,9 +88,11 @@ public class CraftingStation : MonoBehaviour, IInteractable
         if (playerMovementScript != null)
         {
             playerMovementScript.enabled = false;
-            playerMovementScript.GetComponent<AudioSource>().Stop();
+            if (playerAudio != null) playerAudio.Stop();
         }
         if (craftingVFX != null) craftingVFX.Play();
+
+        SetToolAnimation(true);
 
         if (audioSource != null && craftingSounds.Length > 0)
         {
@@ -92,6 +105,7 @@ public class CraftingStation : MonoBehaviour, IInteractable
 
         if (audioSource != null) audioSource.Stop();
         if (craftingVFX != null) craftingVFX.Stop();
+        SetToolAnimation(false);
         if (playerMovementScript != null) playerMovementScript.enabled = true;
 
         GameManager.Instance.CompleteCraftingStep(stationStepNumber);
@@ -101,6 +115,12 @@ public class CraftingStation : MonoBehaviour, IInteractable
 
     public void ResetStation()
     {
+        StopAllCoroutines();
+        if (audioSource != null) audioSource.Stop();
+        if (craftingVFX != null) craftingVFX.Stop();
+        SetToolAnimation(false);
+        if (playerMovementScript != null) playerMovementScript.enabled = true;
+
         isCompleted = false;
         isCrafting = false;
     }
