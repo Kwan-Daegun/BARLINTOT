@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class ShopMenu : MonoBehaviour
     public static ShopMenu Instance { get; private set; }
 
     [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI shopLabel;
     [SerializeField] private Transform itemContainer;
     [SerializeField] private GameObject itemCardPrefab;
     [SerializeField] private Button exitBtn;
@@ -30,8 +32,10 @@ public class ShopMenu : MonoBehaviour
         ShowMenu(false);
     }
 
-    public void OpenShop(Item[] itemsToDisplay)
+    public void OpenShop(Item[] itemsToDisplay, string shopName = "Shop")
     {
+        shopLabel.text = shopName;
+        
         PopulateShop(itemsToDisplay);
         ShowMenu(true);
     }

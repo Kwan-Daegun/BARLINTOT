@@ -281,10 +281,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3718950603322046607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -113.3732}
+  m_SizeDelta: {x: 675.4527, y: 512.6268}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8896803895418004017
 MonoBehaviour:
@@ -369,15 +369,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3701771, g: 0.3701771, b: 0.3701771, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 505214962, guid: 120feb204cb4bcdd7a723b401d63f885, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -760,6 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98ee9d4b8a06e0f6c9b6c91d34e34a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopLabel: {fileID: 2868494273487390653}
   itemContainer: {fileID: 6038953734404260103}
   itemCardPrefab: {fileID: 4962781955439608056, guid: 1f6bd0c4b5783282cb0b426ff3f6e59b, type: 3}
   exitBtn: {fileID: 611344698385432128}
