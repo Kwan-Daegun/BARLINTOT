@@ -20,6 +20,23 @@ MonoBehaviour:
     birthDate: February 14, 1950
     deathDate: March 19, 2015
     message: A beautiful, gentle soul, now watching over us from heaven.
-  normalModelPrefab: {fileID: 3428677177961663555, guid: 03d510344d48c8a4286b1d68aa1f3319, type: 3}
-  physicalMorphPrefab: {fileID: 0}
-  logicErrorDescription: 
+  payment: 500
+  documents:
+    customerIdName: 
+    deceasedIdName: 
+    deceasedIdBirthDate: 
+    togetherPhoto: {fileID: 0}
+    photoIsWrong: 0
+    deathDocName: 
+    deathDocDate: 
+    deathPlace: 
+  dialogue:
+    greeting: []
+    orderAccepted: []
+    orderDeclined: []
+    paid: []
+    documentsRejected: []
+    delivered: []
+    stillWaiting: []
+  normalModelPrefab: {fileID: 0}
+  prefabOverride: {fileID: 0}

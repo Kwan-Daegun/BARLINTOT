@@ -24989,7 +24989,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -28098,6 +28098,10 @@ PrefabInstance:
     - target: {fileID: 3040015074075339049, guid: 11ce4dd32f4389a46b31120740fbff9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417641290852408414, guid: 11ce4dd32f4389a46b31120740fbff9b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3623076565824438885, guid: 11ce4dd32f4389a46b31120740fbff9b, type: 3}
       propertyPath: m_Center.y
@@ -41106,6 +41110,15 @@ MonoBehaviour:
   exitPoint: {fileID: 1833152704}
   allPossibleNPCs:
   - {fileID: 11400000, guid: 7a12484574f46b74e8b98545e811b419, type: 2}
+  - {fileID: 11400000, guid: e939cbbb8433658478381ba93fbae4f0, type: 2}
+  - {fileID: 11400000, guid: a9b2f6ff64923e54dbbb1664385ef0bf, type: 2}
+  - {fileID: 11400000, guid: caa7f8b8e11c9c74d86f23ffbc06a835, type: 2}
+  - {fileID: 11400000, guid: caa7f8b8e11c9c74d86f23ffbc06a835, type: 2}
+  - {fileID: 11400000, guid: a6193457d37d43f40ad63fd64e1c95e6, type: 2}
+  - {fileID: 11400000, guid: e1e607e647c60ba41a9fa6f4f101cdbc, type: 2}
+  - {fileID: 11400000, guid: 06f6c111233dbf649949558f798c5741, type: 2}
+  - {fileID: 11400000, guid: 213bbe1cb81c6824eb5479302e1a4d71, type: 2}
+  - {fileID: 11400000, guid: 3fdd13ca2ecabff4b8c1079ad65319ed, type: 2}
   spawnDelay: 0
   shutter: {fileID: 0}
   pickupDelay: 3
@@ -48091,7 +48104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 142.3, y: 21.900055}
+  m_AnchoredPosition: {x: 142.3, y: 72}
   m_SizeDelta: {x: 198.3984, y: 36.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &891491981
@@ -58040,7 +58053,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 142.5, y: 65.8}
+  m_AnchoredPosition: {x: 142.5, y: 114}
   m_SizeDelta: {x: 198.3984, y: 36.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1067674905
@@ -121989,7 +122002,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2435367579533464329, guid: a4704c8fbd38dc0489ff518b85b7f86e, type: 3}
+  - {fileID: 2100000, guid: b35d3d15db4080d4e8d87d61b3f8f623, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
