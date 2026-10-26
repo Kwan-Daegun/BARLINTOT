@@ -39844,6 +39844,15 @@ MonoBehaviour:
   exitPoint: {fileID: 1833152704}
   allPossibleNPCs:
   - {fileID: 11400000, guid: 7a12484574f46b74e8b98545e811b419, type: 2}
+  - {fileID: 11400000, guid: c9da756694edf3143bcdd92eeef32cc1, type: 2}
+  - {fileID: 11400000, guid: 075e88e9251b6fd49b8a790bb0b8a63b, type: 2}
+  - {fileID: 11400000, guid: 6d25d3ce53b6b164b8a341103c986e8f, type: 2}
+  - {fileID: 11400000, guid: 0fea53450efb42b47b25a4c5ba059c0a, type: 2}
+  - {fileID: 11400000, guid: 06f03e3c5b301d742addf9b6715e579e, type: 2}
+  - {fileID: 11400000, guid: d06b422b551d1b4459909c29ca5fae0b, type: 2}
+  - {fileID: 11400000, guid: 39767dc7cb588e4428c1ed448b305d1b, type: 2}
+  - {fileID: 11400000, guid: e86d1cd47098ba046a299bc26e225fb2, type: 2}
+  - {fileID: 11400000, guid: 3f24ca3873c1658429ed0bf3bcb1ee0c, type: 2}
   spawnDelay: 0
   shutter: {fileID: 0}
   pickupDelay: 3
