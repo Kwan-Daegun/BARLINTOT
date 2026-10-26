@@ -30,4 +30,13 @@ MonoBehaviour:
     deathDocName: Sarah Santos
     deathDocDate: 09-07-1986
     deathPlace: Barlin Strt
-  normalModelPrefab: {fileID: 919132149155446097, guid: f862e87daaecbe948a63878028f85634, type: 3}
+  dialogue:
+    greeting: []
+    orderAccepted: []
+    orderDeclined: []
+    paid: []
+    documentsRejected: []
+    delivered: []
+    stillWaiting: []
+  normalModelPrefab: {fileID: 0}
+  prefabOverride: {fileID: 0}
