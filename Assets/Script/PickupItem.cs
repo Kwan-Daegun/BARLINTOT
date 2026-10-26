@@ -232,6 +232,14 @@ public class PickupItem : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /// <summary>Used by the task skip button: gives you the item without aiming at it.</summary>
+    public void ForceCollect()
+    {
+        if (TaskListManager.Instance != null) TaskListManager.Instance.AddItem(itemName);
+        if (current == this) HidePrompt();
+        Destroy(gameObject);
+    }
+
     // ---------------------------------------------------------------- Prompt
 
     private void ShowPrompt()
@@ -356,6 +364,7 @@ public class PickupItem : MonoBehaviour
             textProperty.SetValue(textComponent, value);
     }
 }*/
+
 
 using System.Collections.Generic;
 using System.Reflection;
@@ -588,7 +597,7 @@ public class PickupItem : MonoBehaviour
 
         if (current == this) HidePrompt();
 
-        Destroy(gameObject);
+        gameObject.SetActive(false); // switched off, not destroyed, so a forgetful morning can bring it back
     }
 
     /// <summary>Used by the task skip button: gives you the item without aiming at it.</summary>
@@ -596,7 +605,7 @@ public class PickupItem : MonoBehaviour
     {
         if (TaskListManager.Instance != null) TaskListManager.Instance.AddItem(itemName);
         if (current == this) HidePrompt();
-        Destroy(gameObject);
+        gameObject.SetActive(false); // switched off, not destroyed, so a forgetful morning can bring it back
     }
 
     // ---------------------------------------------------------------- Prompt
